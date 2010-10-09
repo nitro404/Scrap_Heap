@@ -19,13 +19,18 @@ namespace SproketEngine {
 	public class ScrapHeap : Microsoft.Xna.Framework.Game {
 
 		GameSettings settings;
+		GameConsole console;
 		GraphicsDeviceManager graphics;
+		ContentManager content;
 		SpriteBatch spriteBatch;
+
+		bool fullScreenKeyPressed = false;
 
 		public ScrapHeap() {
 			settings = new GameSettings();
 			graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
+			content = new ContentManager(Services, "Content");
+			console = new GameConsole();
 		}
 
 		/// <summary>
@@ -36,7 +41,7 @@ namespace SproketEngine {
 		/// </summary>
 		protected override void Initialize() {
 			// load the game settings from file
-			settings.loadFrom(Content.RootDirectory + "/" + GameSettings.defaultFileName);
+			settings.loadFrom(content.RootDirectory + "/" + GameSettings.defaultFileName);
 
 			// set the screen resolution
 			graphics.PreferredBackBufferWidth = settings.screenWidth;
@@ -49,6 +54,9 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
+			// initialize the game console
+			console.initialize(settings);
+
 			base.Initialize();
 		}
 
@@ -58,6 +66,9 @@ namespace SproketEngine {
 		/// </summary>
 		protected override void LoadContent() {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			// load console related content
+			console.loadContent(content);
 		}
 
 		/// <summary>
@@ -74,10 +85,33 @@ namespace SproketEngine {
 		protected override void Update(GameTime gameTime) {
 			KeyboardState keyboard = Keyboard.GetState();
 			GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
+			bool alternateInput = false;
 
-			if(keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.Back)) {
-				Exit();
+			if(IsActive) {
+				if(keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.Back)) {
+					Exit();
+				}
+
+				// toggle between windowed mode and fullscreen
+				if((keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt)) &&
+					keyboard.IsKeyDown(Keys.Enter)) {
+					if(!fullScreenKeyPressed) {
+						graphics.ToggleFullScreen();
+						settings.fullScreen = graphics.IsFullScreen;
+						alternateInput = true;
+						fullScreenKeyPressed = true;
+					}
+				}
+				else { fullScreenKeyPressed = false; }
+
+				if(!alternateInput) {
+					// let the console handle input
+					console.handleInput();
+				}
 			}
+
+			// update the console
+			console.update(gameTime);
 
 			base.Update(gameTime);
 		}
@@ -89,12 +123,17 @@ namespace SproketEngine {
 		protected override void Draw(GameTime gameTime) {
 			GraphicsDevice.Clear(Color.Black);
 
+			// draw the console
+			spriteBatch.Begin();
+			console.draw(spriteBatch);
+			spriteBatch.End();
+
 			base.Draw(gameTime);
 		}
 
 		protected override void OnExiting(object sender, EventArgs args) {
 			// update the game settings file with changes
-			settings.saveTo(Content.RootDirectory + "/" + GameSettings.defaultFileName);
+			settings.saveTo(content.RootDirectory + "/" + GameSettings.defaultFileName);
 
 			base.OnExiting(sender, args);
 		}
