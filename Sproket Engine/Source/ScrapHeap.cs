@@ -18,10 +18,12 @@ namespace SproketEngine {
 	/// </summary>
 	public class ScrapHeap : Microsoft.Xna.Framework.Game {
 
+		GameSettings settings;
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
 		public ScrapHeap() {
+			settings = new GameSettings();
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 		}
@@ -33,7 +35,19 @@ namespace SproketEngine {
 		/// and initialize them as well.
 		/// </summary>
 		protected override void Initialize() {
-			
+			// load the game settings from file
+			settings.loadFrom(Content.RootDirectory + "/" + GameSettings.defaultFileName);
+
+			// set the screen resolution
+			graphics.PreferredBackBufferWidth = settings.screenWidth;
+			graphics.PreferredBackBufferHeight = settings.screenHeight;
+			graphics.ApplyChanges();
+
+			// set the screen attributes / full screen mode
+			Window.AllowUserResizing = false;
+			if(settings.fullScreen) {
+				graphics.ToggleFullScreen();
+			}
 
 			base.Initialize();
 		}
@@ -44,17 +58,13 @@ namespace SproketEngine {
 		/// </summary>
 		protected override void LoadContent() {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			
 		}
 
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
 		/// all content.
 		/// </summary>
-		protected override void UnloadContent() {
-			
-		}
+		protected override void UnloadContent() { }
 
 		/// <summary>
 		/// Allows the game to run logic such as updating the world,
@@ -69,8 +79,6 @@ namespace SproketEngine {
 				Exit();
 			}
 
-			
-
 			base.Update(gameTime);
 		}
 
@@ -81,9 +89,14 @@ namespace SproketEngine {
 		protected override void Draw(GameTime gameTime) {
 			GraphicsDevice.Clear(Color.Black);
 
-
-
 			base.Draw(gameTime);
+		}
+
+		protected override void OnExiting(object sender, EventArgs args) {
+			// update the game settings file with changes
+			settings.saveTo(Content.RootDirectory + "/" + GameSettings.defaultFileName);
+
+			base.OnExiting(sender, args);
 		}
 	}
 }
