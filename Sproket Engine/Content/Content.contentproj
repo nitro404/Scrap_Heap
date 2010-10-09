@@ -50,7 +50,7 @@
       <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="ConsoleFont.spritefont">
+    <Compile Include="Fonts\ConsoleFont.spritefont">
       <Name>ConsoleFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>

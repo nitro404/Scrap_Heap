@@ -8,13 +8,15 @@ namespace SproketEngine {
 	class CommandInterpreter {
 
 		private ScrapHeap m_game;
+		private ScreenManager m_screenManager;
 		private GameSettings m_settings;
 		private GameConsole m_console;
 
 		public CommandInterpreter() { }
 
-		public void initialize(ScrapHeap game, GameSettings settings, GameConsole console) {
+		public void initialize(ScrapHeap game, ScreenManager screenManager, GameSettings settings, GameConsole console) {
 			m_game = game;
+			m_screenManager = screenManager;
 			m_settings = settings;
 			m_console = console;
 		}
@@ -55,8 +57,10 @@ namespace SproketEngine {
 			else if(cmd.StartsWith("clear")) { m_console.clear(); }
 			else if(cmd.StartsWith("cls")) { m_console.clear(); }
 			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
-			else if(cmd.StartsWith("toggleconsole")) { m_console.toggle(); }
-			else if(cmd.StartsWith("console")) { m_console.active = getOnOffValue(command); }
+			else if(cmd.StartsWith("togglemenu")) { m_screenManager.toggle(ScreenType.Menu); }
+			else if(cmd.StartsWith("menu")) { m_screenManager.show(ScreenType.Menu, getOnOffValue(command)); }
+			else if(cmd.StartsWith("toggleconsole")) { m_screenManager.toggle(ScreenType.Console); }
+			else if(cmd.StartsWith("console")) { m_screenManager.show(ScreenType.Console, getOnOffValue(command)); }
 		}
 	}
 

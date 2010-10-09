@@ -19,7 +19,9 @@ namespace SproketEngine {
 	public class ScrapHeap : Microsoft.Xna.Framework.Game {
 
 		GameSettings settings;
+		ScreenManager screenManager;
 		CommandInterpreter interpreter;
+		GameMenu menu;
 		GameConsole console;
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -28,8 +30,10 @@ namespace SproketEngine {
 
 		public ScrapHeap() {
 			settings = new GameSettings();
+			screenManager = new ScreenManager();
 			graphics = new GraphicsDeviceManager(this);
 			interpreter = new CommandInterpreter();
+			menu = new GameMenu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
 		}
@@ -55,10 +59,12 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
-			// initialize the command interpreter
-			interpreter.initialize(this, settings, console);
+			screenManager.initialize(this, settings, interpreter, menu, console);
 
-			// initialize the game console
+			interpreter.initialize(this, screenManager, settings, console);
+
+			menu.initialize(settings, interpreter);
+
 			console.initialize(settings, interpreter);
 
 			base.Initialize();
@@ -71,7 +77,8 @@ namespace SproketEngine {
 		protected override void LoadContent() {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// load console related content
+			menu.loadContent(Content);
+
 			console.loadContent(Content);
 		}
 
@@ -80,6 +87,13 @@ namespace SproketEngine {
 		/// all content.
 		/// </summary>
 		protected override void UnloadContent() { }
+
+		/// <summary>
+		/// Handles any user input for game interaction.
+		/// </summary>
+		public void handleInput() {
+
+		}
 
 		/// <summary>
 		/// Allows the game to run logic such as updating the world,
@@ -109,13 +123,11 @@ namespace SproketEngine {
 				else { fullScreenKeyPressed = false; }
 
 				if(!alternateInput) {
-					// let the console handle input
-					console.handleInput();
+					screenManager.handleInput();
 				}
 			}
 
-			// update the console
-			console.update(gameTime);
+			screenManager.update(gameTime);
 
 			base.Update(gameTime);
 		}
@@ -127,10 +139,7 @@ namespace SproketEngine {
 		protected override void Draw(GameTime gameTime) {
 			GraphicsDevice.Clear(Color.Black);
 
-			// draw the console
-			spriteBatch.Begin();
-			console.draw(spriteBatch);
-			spriteBatch.End();
+			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 
 			base.Draw(gameTime);
 		}

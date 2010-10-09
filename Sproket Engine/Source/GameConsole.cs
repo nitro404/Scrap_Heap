@@ -12,7 +12,6 @@ namespace SproketEngine {
 	class GameConsole {
 
 		private bool m_active = false;
-		private bool m_consoleKeyPressed = false;
 		private bool m_enterKeyPressed = false;
 		private bool m_backspaceKeyPressed = false;
 		private bool m_deleteKeyPressed = false;
@@ -62,6 +61,17 @@ namespace SproketEngine {
 			m_inputHistory = new List<string>();
 		}
 
+		public bool active {
+			get { return m_active; }
+			set { m_active = value; }
+		}
+
+		public void toggle() { m_active = !m_active; }
+
+		public void open() { m_active = true; }
+
+		public void close() { m_active = false; }
+
 		public void initialize(GameSettings settings, CommandInterpreter interpreter) {
 			m_settings = settings;
 			m_interpreter = interpreter;
@@ -73,20 +83,9 @@ namespace SproketEngine {
 		}
 
 		public void loadContent(ContentManager content) {
-			m_font = content.Load<SpriteFont>("ConsoleFont");
+			m_font = content.Load<SpriteFont>("Fonts/ConsoleFont");
 			m_charSize = m_font.MeasureString("M");
 		}
-
-		public bool active {
-			get { return m_active; }
-			set { m_active = value; }
-		}
-
-		public void toggle() { m_active = !m_active; }
-
-		public void open() { m_active = true; }
-
-		public void close() { m_active = false; }
 
 		public void writeLine(string text) {
 			if(text == null) { return; }
@@ -101,16 +100,6 @@ namespace SproketEngine {
 		public void handleInput() {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
-
-			if(keyboard.IsKeyDown(Keys.OemTilde)) {
-				if(!m_consoleKeyPressed) {
-					m_active = !m_active;
-					m_consoleKeyPressed = true;
-				}
-			}
-			else { m_consoleKeyPressed = false; }
-
-			if(!m_active) { return; }
 
 			if(keyboard.IsKeyDown(Keys.Enter)) {
 				if(!m_enterKeyPressed) {
