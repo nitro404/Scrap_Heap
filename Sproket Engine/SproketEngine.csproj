@@ -13,7 +13,7 @@
     <XnaPlatform>Windows</XnaPlatform>
     <XnaCrossPlatformGroupID>7ef5da40-48e6-4e57-b2ea-ef01a416d568</XnaCrossPlatformGroupID>
     <ApplicationIcon>ScrapHeap.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <Thumbnail>ScrapHeapThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>SproketEngine.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
@@ -100,8 +100,8 @@
     <Compile Include="Source\VariableSystem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GameThumbnail.png" />
     <Content Include="ScrapHeap.ico" />
+    <Content Include="ScrapHeapThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
