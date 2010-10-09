@@ -82,6 +82,14 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
       <Private>False</Private>
     </Reference>
+    <Reference Include="XNAQ3Lib.MD5, Version=0.9.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\XNAQ3Lib.MD5.dll</HintPath>
+    </Reference>
+    <Reference Include="XNAQ3Lib.Q3BSP, Version=0.4.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\XNAQ3Lib.Q3BSP.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
