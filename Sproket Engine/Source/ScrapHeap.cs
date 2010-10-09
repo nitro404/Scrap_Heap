@@ -19,9 +19,9 @@ namespace SproketEngine {
 	public class ScrapHeap : Microsoft.Xna.Framework.Game {
 
 		GameSettings settings;
+		CommandInterpreter interpreter;
 		GameConsole console;
 		GraphicsDeviceManager graphics;
-		ContentManager content;
 		SpriteBatch spriteBatch;
 
 		bool fullScreenKeyPressed = false;
@@ -29,8 +29,9 @@ namespace SproketEngine {
 		public ScrapHeap() {
 			settings = new GameSettings();
 			graphics = new GraphicsDeviceManager(this);
-			content = new ContentManager(Services, "Content");
+			interpreter = new CommandInterpreter();
 			console = new GameConsole();
+			Content.RootDirectory = "Content";
 		}
 
 		/// <summary>
@@ -41,7 +42,7 @@ namespace SproketEngine {
 		/// </summary>
 		protected override void Initialize() {
 			// load the game settings from file
-			settings.loadFrom(content.RootDirectory + "/" + GameSettings.defaultFileName);
+			settings.loadFrom(Content.RootDirectory + "/" + GameSettings.defaultFileName);
 
 			// set the screen resolution
 			graphics.PreferredBackBufferWidth = settings.screenWidth;
@@ -54,8 +55,11 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
+			// initialize the command interpreter
+			interpreter.initialize(this, settings, console);
+
 			// initialize the game console
-			console.initialize(settings);
+			console.initialize(settings, interpreter);
 
 			base.Initialize();
 		}
@@ -68,7 +72,7 @@ namespace SproketEngine {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// load console related content
-			console.loadContent(content);
+			console.loadContent(Content);
 		}
 
 		/// <summary>
@@ -133,7 +137,7 @@ namespace SproketEngine {
 
 		protected override void OnExiting(object sender, EventArgs args) {
 			// update the game settings file with changes
-			settings.saveTo(content.RootDirectory + "/" + GameSettings.defaultFileName);
+			settings.saveTo(Content.RootDirectory + "/" + GameSettings.defaultFileName);
 
 			base.OnExiting(sender, args);
 		}

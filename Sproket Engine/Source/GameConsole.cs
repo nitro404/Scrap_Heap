@@ -53,13 +53,18 @@ namespace SproketEngine {
 		private Color m_borderColour = new Color(255, 0, 0);
 		private Color m_backgroundColour = new Color(0, 0, 0, 128);
 
+		private GameSettings m_settings;
+		private CommandInterpreter m_interpreter;
+
 		public GameConsole() {
 			m_input = "";
 			m_outputHistory = new List<string>();
 			m_inputHistory = new List<string>();
 		}
 
-		public void initialize(GameSettings settings) {
+		public void initialize(GameSettings settings, CommandInterpreter interpreter) {
+			m_settings = settings;
+			m_interpreter = interpreter;
 			m_dimensions = new Rectangle(m_padding,
 										 m_padding,
 										 settings.screenWidth - (m_padding * 2),
@@ -70,6 +75,22 @@ namespace SproketEngine {
 		public void loadContent(ContentManager content) {
 			m_font = content.Load<SpriteFont>("ConsoleFont");
 			m_charSize = m_font.MeasureString("M");
+		}
+
+		public bool active {
+			get { return m_active; }
+			set { m_active = value; }
+		}
+
+		public void toggle() { m_active = !m_active; }
+
+		public void open() { m_active = true; }
+
+		public void close() { m_active = false; }
+
+		public void writeLine(string text) {
+			if(text == null) { return; }
+			m_outputHistory.Add(text);
 		}
 
 		public void resetCursorAnimation() {
@@ -93,8 +114,6 @@ namespace SproketEngine {
 
 			if(keyboard.IsKeyDown(Keys.Enter)) {
 				if(!m_enterKeyPressed) {
-					// TODO: send input to command interpreter
-
 					if(m_outputHistory.Count() >= m_maxOutputHistory) {
 						m_outputHistory.RemoveAt(0);
 					}
@@ -105,6 +124,8 @@ namespace SproketEngine {
 
 					m_outputHistory.Add(m_input);
 					m_inputHistory.Add(m_input);
+
+					m_interpreter.execute(m_input);
 
 					m_input = "";
 					m_cursorPos = 0;
@@ -174,6 +195,7 @@ namespace SproketEngine {
 
 			bool upperCase = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);
 
+			// TODO: fix backslash key not registering
 			for(int i=0;i<m_inputKeys.Length;i++) {
 				if(keyboard.IsKeyDown(m_inputKeys[i])) {
 					if(!m_inputKeyPressed[i]) {
@@ -203,6 +225,20 @@ namespace SproketEngine {
 				m_cursorVisible = !m_cursorVisible;
 				m_cursorBlinkTime = 0;
 			}
+		}
+
+		public void clear() {
+			m_outputHistory.Clear();
+		}
+
+		public void reset() {
+			m_cursorPos = 0;
+			m_input = "";
+
+			resetCursorAnimation();
+
+			m_inputHistory.Clear();
+			m_outputHistory.Clear();
 		}
 
 		public void draw(SpriteBatch spriteBatch) {
