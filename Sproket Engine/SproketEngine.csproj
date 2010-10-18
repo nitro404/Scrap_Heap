@@ -93,16 +93,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\GameMenu.cs" />
+    <Compile Include="Source\Menu\SimpleMenuItem.cs" />
+    <Compile Include="Source\Menu\SinglePlayerMenu.cs" />
+    <Compile Include="Source\Menu\MainMenu.cs" />
+    <Compile Include="Source\Menu\MenuItem.cs" />
+    <Compile Include="Source\Menu\SubMenu.cs" />
+    <Compile Include="Source\Menu\Menu.cs" />
     <Compile Include="Source\ScreenManager.cs" />
     <Compile Include="Source\CommandInterpreter.cs" />
     <Compile Include="Source\GameConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\GameSettings.cs" />
+    <Compile Include="Source\Settings File Manager\GameSettings.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Source\ScrapHeap.cs" />
-    <Compile Include="Source\Variable.cs" />
-    <Compile Include="Source\VariableSystem.cs" />
+    <Compile Include="Source\Settings File Manager\Variable.cs" />
+    <Compile Include="Source\Settings File Manager\VariableSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScrapHeap.ico" />

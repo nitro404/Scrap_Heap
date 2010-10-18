@@ -10,20 +10,21 @@ namespace SproketEngine {
 
 	enum ScreenType { Game, Menu, Console }
 
+	enum ScreenVisibilityChange { None, Show, Hide, Toggle }
+
 	class ScreenManager {
 
-		private ScreenType activeScreen = ScreenType.Game;
-		private bool m_consoleKeyPressed = false;
+		private ScreenType m_activeScreen = ScreenType.Game;
 
 		private ScrapHeap m_game;
 		private GameSettings m_settings;
 		private CommandInterpreter m_interpreter;
-		private GameMenu m_menu;
+		private Menu m_menu;
 		private GameConsole m_console;
 
 		public ScreenManager() { }
 
-		public void initialize(ScrapHeap game, GameSettings settings, CommandInterpreter interpreter, GameMenu menu, GameConsole console) {
+		public void initialize(ScrapHeap game, GameSettings settings, CommandInterpreter interpreter, Menu menu, GameConsole console) {
 			m_game = game;
 			m_settings = settings;
 			m_interpreter = interpreter;
@@ -42,9 +43,10 @@ namespace SproketEngine {
 			updateActiveScreen();
 		}
 
-		public void show(ScreenType screen, bool visible) {
-			if(visible) { show(screen); }
-			else { hide(screen); }
+		public void set(ScreenType screen, ScreenVisibilityChange visibility) {
+				 if(visibility == ScreenVisibilityChange.Toggle) { toggle(screen); }
+			else if(visibility == ScreenVisibilityChange.Show) { show(screen); }
+			else if(visibility == ScreenVisibilityChange.Hide) { hide(screen); }
 		}
 
 		public void show(ScreenType screen) {
@@ -59,7 +61,7 @@ namespace SproketEngine {
 				m_console.open();
 			}
 
-			activeScreen = screen;
+			m_activeScreen = screen;
 		}
 
 		public void hide(ScreenType screen) {
@@ -74,25 +76,21 @@ namespace SproketEngine {
 		}
 
 		private void updateActiveScreen() {
-			activeScreen = ScreenType.Game;
-			if(m_menu.active) { activeScreen = ScreenType.Menu; }
-			if(m_console.active) { activeScreen = ScreenType.Console; }
+			m_activeScreen = ScreenType.Game;
+			if(m_menu.active) { m_activeScreen = ScreenType.Menu; }
+			if(m_console.active) { m_activeScreen = ScreenType.Console; }
 		}
 
 		public void handleInput() {
 			KeyboardState keyboard = Keyboard.GetState();
 
-			if(keyboard.IsKeyDown(Keys.OemTilde)) {
-				if(!m_consoleKeyPressed) {
-					toggle(ScreenType.Console);
-					m_consoleKeyPressed = true;
-				}
-			}
-			else { m_consoleKeyPressed = false; }
+			if(m_activeScreen == ScreenType.Game) { m_game.handleInput(); }
 
-				 if(activeScreen == ScreenType.Game) { m_game.handleInput(); }
-			else if(activeScreen == ScreenType.Menu) { m_menu.handleInput(); }
-			else if(activeScreen == ScreenType.Console) { m_console.handleInput(); }
+			if(m_activeScreen != ScreenType.Console) {
+				m_menu.handleInput();
+			}
+
+			m_console.handleInput();
 		}
 
 		public void update(GameTime gameTime) {

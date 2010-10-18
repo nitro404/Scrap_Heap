@@ -21,21 +21,20 @@ namespace SproketEngine {
 			m_console = console;
 		}
 
+		public void execute(string command) {
+			string cmd = command.Trim().ToLower();
+			if(cmd.StartsWith("quit") || cmd.StartsWith("exit")) { m_game.Exit(); }
+			else if(cmd.StartsWith("clear") || cmd.StartsWith("clear")) { m_console.clear(); }
+			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
+			else if(cmd.StartsWith("menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(command)); }
+			else if(cmd.StartsWith("console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(command)); }
+		}
+
 		private static string getStringValue(string data) {
 			if(data == null) { return ""; }
 			int spaceIndex = data.IndexOf(" ");
 			if(spaceIndex < 0) { return ""; }
 			return data.Substring(spaceIndex + 1, data.Length - spaceIndex - 1);
-		}
-
-		public bool getOnOffValue(string data) {
-			string temp = getStringValue(data).Trim().ToLower();
-				 if(temp.Equals("1", StringComparison.OrdinalIgnoreCase)) { return true; }
-			else if(temp.Equals("on", StringComparison.OrdinalIgnoreCase)) { return true; }
-			else if(temp.Equals("enable", StringComparison.OrdinalIgnoreCase)) { return true; }
-			else if(temp.Equals("true", StringComparison.OrdinalIgnoreCase)) { return true; }
-			else if(temp.Equals("show", StringComparison.OrdinalIgnoreCase)) { return true; }
-			return false;
 		}
 
 		private static int getIntValue(string data) {
@@ -50,18 +49,32 @@ namespace SproketEngine {
 			return bool.Parse(getStringValue(data));
 		}
 
-		public void execute(string command) {
-			string cmd = command.Trim().ToLower();
-				 if(cmd.StartsWith("quit")) { m_game.Exit(); }
-			else if(cmd.StartsWith("exit")) { m_game.Exit(); }
-			else if(cmd.StartsWith("clear")) { m_console.clear(); }
-			else if(cmd.StartsWith("cls")) { m_console.clear(); }
-			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
-			else if(cmd.StartsWith("togglemenu")) { m_screenManager.toggle(ScreenType.Menu); }
-			else if(cmd.StartsWith("menu")) { m_screenManager.show(ScreenType.Menu, getOnOffValue(command)); }
-			else if(cmd.StartsWith("toggleconsole")) { m_screenManager.toggle(ScreenType.Console); }
-			else if(cmd.StartsWith("console")) { m_screenManager.show(ScreenType.Console, getOnOffValue(command)); }
+		public static ScreenVisibilityChange getScreenVisibilityChange(string data) {
+			string temp = getStringValue(data).Trim().ToLower();
+
+			if(temp.Equals("toggle", StringComparison.OrdinalIgnoreCase)) {
+				return ScreenVisibilityChange.Toggle;
+			}
+
+			if(temp.Equals("1", StringComparison.OrdinalIgnoreCase) || 
+			   temp.Equals("on", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("enable", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("show", StringComparison.OrdinalIgnoreCase)) {
+				return ScreenVisibilityChange.Show;
+			}
+
+			if(temp.Equals("0", StringComparison.OrdinalIgnoreCase) || 
+			   temp.Equals("off", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("disable", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("hide", StringComparison.OrdinalIgnoreCase)) {
+				return ScreenVisibilityChange.Hide;
+			}
+
+			return ScreenVisibilityChange.None;
 		}
+
 	}
 
 }

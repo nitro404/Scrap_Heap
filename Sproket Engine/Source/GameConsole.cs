@@ -12,6 +12,7 @@ namespace SproketEngine {
 	class GameConsole {
 
 		private bool m_active = false;
+		private bool m_consoleKeyPressed = false;
 		private bool m_enterKeyPressed = false;
 		private bool m_backspaceKeyPressed = false;
 		private bool m_deleteKeyPressed = false;
@@ -100,6 +101,18 @@ namespace SproketEngine {
 		public void handleInput() {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
+
+			bool consoleWasOpen = m_active;
+
+			if(keyboard.IsKeyDown(Keys.OemTilde)) {
+				if(!m_consoleKeyPressed) {
+					m_interpreter.execute("console toggle");
+					m_consoleKeyPressed = true;
+				}
+			}
+			else { m_consoleKeyPressed = false; }
+
+			if(!consoleWasOpen) { return; }
 
 			if(keyboard.IsKeyDown(Keys.Enter)) {
 				if(!m_enterKeyPressed) {

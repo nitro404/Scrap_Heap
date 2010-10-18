@@ -21,7 +21,7 @@ namespace SproketEngine {
 		GameSettings settings;
 		ScreenManager screenManager;
 		CommandInterpreter interpreter;
-		GameMenu menu;
+		Menu menu;
 		GameConsole console;
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -33,7 +33,7 @@ namespace SproketEngine {
 			screenManager = new ScreenManager();
 			graphics = new GraphicsDeviceManager(this);
 			interpreter = new CommandInterpreter();
-			menu = new GameMenu();
+			menu = new Menu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
 		}
@@ -106,10 +106,6 @@ namespace SproketEngine {
 			bool alternateInput = false;
 
 			if(IsActive) {
-				if(keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.Back)) {
-					Exit();
-				}
-
 				// toggle between windowed mode and fullscreen
 				if((keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt)) &&
 					keyboard.IsKeyDown(Keys.Enter)) {
