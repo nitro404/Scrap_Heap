@@ -24,10 +24,11 @@ namespace SproketEngine {
 		public void execute(string command) {
 			string cmd = command.Trim().ToLower();
 			if(cmd.StartsWith("quit") || cmd.StartsWith("exit")) { m_game.Exit(); }
-			else if(cmd.StartsWith("clear") || cmd.StartsWith("clear")) { m_console.clear(); }
+			else if(cmd.StartsWith("clear") || cmd.StartsWith("cls")) { m_console.clear(); }
 			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
 			else if(cmd.StartsWith("menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(command)); }
 			else if(cmd.StartsWith("console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(command)); }
+			else { m_console.writeLine("Unknown Command: " + command); }
 		}
 
 		private static string getStringValue(string data) {

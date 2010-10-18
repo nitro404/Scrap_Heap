@@ -256,6 +256,7 @@ namespace SproketEngine {
 			}
 
 			pos.Y -= 2;
+			pos.X += 8;
 			for(int i=m_outputHistory.Count()-1;i>=0;i--) {
 				pos.Y -= m_charSize.Y;
 				if(pos.Y < m_dimensions.Top) { break; }
