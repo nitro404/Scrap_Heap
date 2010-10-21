@@ -28,6 +28,13 @@ namespace SproketEngine {
 			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
 			else if(cmd.StartsWith("menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(command)); }
 			else if(cmd.StartsWith("console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(command)); }
+			else if(cmd.StartsWith("map")) {
+				string levelName = getStringValue(command);
+				bool levelLoaded = m_game.loadLevel(levelName);
+				if(!levelLoaded) {
+					m_console.writeLine("Unable to load map: " + levelName);
+				}
+			}
 			else { m_console.writeLine("Unknown Command: " + command); }
 		}
 

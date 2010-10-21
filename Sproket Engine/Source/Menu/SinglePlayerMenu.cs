@@ -45,7 +45,7 @@ namespace SproketEngine {
 		public override void select() {
 			if(m_index == 0) {
 				m_interpreter.execute("menu off");
-				m_interpreter.execute("map test.bsp");
+				m_interpreter.execute("map xnaq3lib_test.bsp");
 			}
 			else if(m_index == 1) {
 				m_parentMenu.back();

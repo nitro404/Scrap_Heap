@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using XNAQ3Lib.MD5;
+using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
 
@@ -26,6 +28,9 @@ namespace SproketEngine {
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
+		Q3BSPLevel level;
+		Camera camera;
+
 		bool fullScreenKeyPressed = false;
 
 		public ScrapHeap() {
@@ -36,6 +41,7 @@ namespace SproketEngine {
 			menu = new Menu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
+			camera = new Camera(this);
 		}
 
 		/// <summary>
@@ -58,6 +64,8 @@ namespace SproketEngine {
 			if(settings.fullScreen) {
 				graphics.ToggleFullScreen();
 			}
+
+			camera.initialize(graphics.GraphicsDevice);
 
 			screenManager.initialize(this, settings, interpreter, menu, console);
 
@@ -88,11 +96,41 @@ namespace SproketEngine {
 		/// </summary>
 		protected override void UnloadContent() { }
 
+		public bool loadLevel(string levelName) {
+			if(levelName == null) {
+				return false;
+			}
+
+			levelName = levelName.Trim();
+
+			Q3BSPLevel newLevel = new Q3BSPLevel(Q3BSPRenderType.StaticBuffer);
+			newLevel.BasePath = levelName;
+
+			bool addBsp = !levelName.ToLower().EndsWith(".bsp");
+
+			try {
+				if(newLevel.LoadFromFile(Content.RootDirectory + "/maps/" + newLevel.BasePath + (addBsp ? ".bsp" : ""))) {
+					if(!newLevel.InitializeLevel(GraphicsDevice, Content, @"shaders\")) {
+						return false;
+					}
+				}
+			}
+			catch(Exception) {
+				return false;
+			}
+
+			camera.reset();
+
+			level = newLevel;			
+
+			return true;
+		}
+
 		/// <summary>
 		/// Handles any user input for game interaction.
 		/// </summary>
-		public void handleInput() {
-
+		public void handleInput(GameTime gameTime) {
+			camera.handleInput(gameTime);
 		}
 
 		/// <summary>
@@ -119,7 +157,7 @@ namespace SproketEngine {
 				else { fullScreenKeyPressed = false; }
 
 				if(!alternateInput) {
-					screenManager.handleInput();
+					screenManager.handleInput(gameTime);
 				}
 			}
 
@@ -134,6 +172,10 @@ namespace SproketEngine {
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime) {
 			GraphicsDevice.Clear(Color.Black);
+
+			if(level != null) {
+				level.RenderLevel(camera.position, camera.view, camera.projection, gameTime, graphics.GraphicsDevice);
+			}
 
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 

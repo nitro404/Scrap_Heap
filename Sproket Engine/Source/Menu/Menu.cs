@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SproketEngine {
 
-	enum MenuType { Main=0, SinglePlayer=1 }
+	enum MenuType { Main, SinglePlayer }
 
 	class Menu {
 

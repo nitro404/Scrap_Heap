@@ -81,10 +81,10 @@ namespace SproketEngine {
 			if(m_console.active) { m_activeScreen = ScreenType.Console; }
 		}
 
-		public void handleInput() {
+		public void handleInput(GameTime gameTime) {
 			KeyboardState keyboard = Keyboard.GetState();
 
-			if(m_activeScreen == ScreenType.Game) { m_game.handleInput(); }
+			if(m_activeScreen == ScreenType.Game) { m_game.handleInput(gameTime); }
 
 			if(m_activeScreen != ScreenType.Console) {
 				m_menu.handleInput();

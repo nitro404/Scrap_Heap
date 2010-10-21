@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Menu\SimpleMenuItem.cs" />
     <Compile Include="Source\Menu\SinglePlayerMenu.cs" />
     <Compile Include="Source\Menu\MainMenu.cs" />
