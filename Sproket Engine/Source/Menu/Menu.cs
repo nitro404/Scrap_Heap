@@ -13,7 +13,7 @@ namespace SproketEngine {
 
 	class Menu {
 
-		private bool m_active = false;
+		private bool m_active = true;
 		private MenuType m_currentMenu = MenuType.Main;
 		private List<SubMenu> m_menu;
 		private Vector2 m_position;
@@ -188,11 +188,7 @@ namespace SproketEngine {
 
 		public void back() {
 			if(m_currentMenu == MenuType.Main) {
-				bool menuWasOpen = m_active;
 				m_interpreter.execute("menu toggle");
-				if(menuWasOpen != m_active) {
-					m_menu[(int) m_currentMenu].index = 0;
-				}
 			}
 			else if(m_currentMenu == MenuType.SinglePlayer) {
 				m_menu[(int) m_currentMenu].index = 0;

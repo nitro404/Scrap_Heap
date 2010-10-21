@@ -68,7 +68,8 @@ namespace SproketEngine {
 			   temp.Equals("on", StringComparison.OrdinalIgnoreCase) ||
 			   temp.Equals("enable", StringComparison.OrdinalIgnoreCase) ||
 			   temp.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-			   temp.Equals("show", StringComparison.OrdinalIgnoreCase)) {
+			   temp.Equals("show", StringComparison.OrdinalIgnoreCase) ||
+               temp.Equals("open", StringComparison.OrdinalIgnoreCase)){
 				return ScreenVisibilityChange.Show;
 			}
 
@@ -76,7 +77,8 @@ namespace SproketEngine {
 			   temp.Equals("off", StringComparison.OrdinalIgnoreCase) ||
 			   temp.Equals("disable", StringComparison.OrdinalIgnoreCase) ||
 			   temp.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-			   temp.Equals("hide", StringComparison.OrdinalIgnoreCase)) {
+			   temp.Equals("hide", StringComparison.OrdinalIgnoreCase) ||
+               temp.Equals("close", StringComparison.OrdinalIgnoreCase)) {
 				return ScreenVisibilityChange.Hide;
 			}
 

@@ -56,8 +56,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-    <None Include="Maps\xnaq3lib_test.bsp">
-      <Name>xnaq3lib_test</Name>
+    <None Include="Maps\test.bsp">
+      <Name>test</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="basicQ3Effect.fx">

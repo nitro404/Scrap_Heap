@@ -126,6 +126,11 @@ namespace SproketEngine {
 			return true;
 		}
 
+        public bool levelLoaded()
+        {
+            return level != null;
+        }
+
 		/// <summary>
 		/// Handles any user input for game interaction.
 		/// </summary>

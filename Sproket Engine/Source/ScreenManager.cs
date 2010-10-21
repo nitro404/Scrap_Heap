@@ -14,7 +14,7 @@ namespace SproketEngine {
 
 	class ScreenManager {
 
-		private ScreenType m_activeScreen = ScreenType.Game;
+		private ScreenType m_activeScreen = ScreenType.Menu;
 
 		private ScrapHeap m_game;
 		private GameSettings m_settings;
@@ -34,7 +34,8 @@ namespace SproketEngine {
 
 		public void toggle(ScreenType screen) {
 			if(screen == ScreenType.Menu) {
-				m_menu.toggle();
+                if(m_game.levelLoaded() || !m_menu.active)
+                    m_menu.toggle();
 			}
 			if(screen == ScreenType.Console) {
 				m_console.toggle();

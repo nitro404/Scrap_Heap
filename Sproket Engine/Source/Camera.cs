@@ -21,19 +21,21 @@ namespace SproketEngine {
 		private float m_nearPlane = 0.1f;
 		private float m_farPlane = 10000.0f;
 
-		private Vector3 m_position = Vector3.Zero;
-		private Vector3 m_rotation = Vector3.Zero;
-		private Vector3 m_forward = Vector3.Forward;
-		private Vector3 m_left = Vector3.Left;
+		private Vector3 m_position;
+		private Vector3 m_rotation;
+		private Vector3 m_forward;
+		private Vector3 m_left;
 
 		private ScrapHeap m_game;
 
 		public Camera(ScrapHeap game) {
 			m_game = game;
+            reset();
 		}
 
 		public void initialize(GraphicsDevice graphics) {
 			m_aspectRatio = graphics.Viewport.Width / graphics.Viewport.Height;
+
 			m_projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 		}
 
@@ -54,6 +56,7 @@ namespace SproketEngine {
 			m_rotation = Vector3.Zero;
 			m_forward = Vector3.Forward;
 			m_left = Vector3.Left;
+            m_view = Matrix.Identity;
 		}
 
 		public void handleInput(GameTime gameTime) {

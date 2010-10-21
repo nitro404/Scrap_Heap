@@ -20,6 +20,7 @@ namespace SproketEngine {
 		private bool m_rightKeyPressed = false;
 		private bool m_homeKeyPressed = false;
 		private bool m_endKeyPressed = false;
+        private bool m_escKeyPressed = false;
 
 		private string m_input;
 		private List<string> m_outputHistory;
@@ -111,6 +112,14 @@ namespace SproketEngine {
 				}
 			}
 			else { m_consoleKeyPressed = false; }
+
+            if (keyboard.IsKeyDown(Keys.Escape)){
+                if (!m_escKeyPressed){
+                    m_interpreter.execute("console hide");
+                    m_escKeyPressed = true;
+                }
+            }
+            else { m_escKeyPressed = false; }
 
 			if(!consoleWasOpen) { return; }
 
