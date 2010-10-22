@@ -193,6 +193,22 @@ namespace SproketEngine {
 			return null;
 		}
 
+		// get a collection of variables in the specified category
+		public List<Variable> getVariablesInCategory(string category) {
+			if(category == null) { return null; }
+
+			int categoryIndex = indexOfCategory(category);
+
+			List<Variable> variableCollection = new List<Variable>();
+
+			for(int i=0;i<m_variables.Count();i++) {
+				if(categoryIndex == m_variables[i].category) {
+					variableCollection.Add(m_variables[i]);
+				}
+			}
+			return variableCollection;
+		}
+
 		// add a new variable from a specified id and value (create the variable)
 		public bool add(string id, string value) {
 			if(id == null || value == null) { return false; }
@@ -343,6 +359,21 @@ namespace SproketEngine {
 				}
 			}
 			return false;
+		}
+
+		// remove all variables in the specified category
+		public void removeCategory(string data) {
+			if(data == null) { return; }
+			string category = data.Trim();
+
+			int categoryIndex = indexOfCategory(category);
+
+			for(int i=0;i<m_variables.Count();i++) {
+				if(m_variables[i].category == categoryIndex) {
+					m_variables.RemoveAt(i);
+					i--;
+				}
+			}
 		}
 
 		// clear all variables

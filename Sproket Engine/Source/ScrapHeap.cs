@@ -23,6 +23,7 @@ namespace SproketEngine {
 		GameSettings settings;
 		ScreenManager screenManager;
 		CommandInterpreter interpreter;
+		ControlSystem controlSystem;
 		Menu menu;
 		GameConsole console;
 		GraphicsDeviceManager graphics;
@@ -38,6 +39,7 @@ namespace SproketEngine {
 			screenManager = new ScreenManager();
 			graphics = new GraphicsDeviceManager(this);
 			interpreter = new CommandInterpreter();
+			controlSystem = new ControlSystem();
 			menu = new Menu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
@@ -67,9 +69,11 @@ namespace SproketEngine {
 
 			camera.initialize(graphics.GraphicsDevice);
 
-			screenManager.initialize(this, settings, interpreter, menu, console);
+			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
-			interpreter.initialize(this, screenManager, settings, console);
+			interpreter.initialize(this, screenManager, controlSystem, settings, console);
+
+			controlSystem.initialize(settings, interpreter);
 
 			menu.initialize(settings, interpreter);
 
@@ -126,8 +130,7 @@ namespace SproketEngine {
 			return true;
 		}
 
-        public bool levelLoaded()
-        {
+        public bool levelLoaded() {
             return level != null;
         }
 
@@ -136,6 +139,8 @@ namespace SproketEngine {
 		/// </summary>
 		public void handleInput(GameTime gameTime) {
 			camera.handleInput(gameTime);
+
+			controlSystem.handleInput(gameTime);
 		}
 
 		/// <summary>

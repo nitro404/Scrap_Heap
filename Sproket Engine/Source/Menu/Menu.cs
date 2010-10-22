@@ -84,7 +84,7 @@ namespace SproketEngine {
 			reset();
 		}
 
-		public void handleInput() {
+		public void handleInput(GameTime gameTime) {
 			KeyboardState keyboard = Keyboard.GetState();
 			GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
 

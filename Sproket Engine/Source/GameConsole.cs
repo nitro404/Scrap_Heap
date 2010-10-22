@@ -99,7 +99,7 @@ namespace SproketEngine {
 			m_cursorVisible = true;
 		}
 
-		public void handleInput() {
+		public void handleInput(GameTime gameTime) {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
@@ -110,16 +110,14 @@ namespace SproketEngine {
 					m_interpreter.execute("console toggle");
 					m_consoleKeyPressed = true;
 				}
-			}
-			else { m_consoleKeyPressed = false; }
+			} else { m_consoleKeyPressed = false; }
 
-            if (keyboard.IsKeyDown(Keys.Escape)){
-                if (!m_escKeyPressed){
+            if(keyboard.IsKeyDown(Keys.Escape)) {
+                if(!m_escKeyPressed){
                     m_interpreter.execute("console hide");
                     m_escKeyPressed = true;
                 }
-            }
-            else { m_escKeyPressed = false; }
+            } else { m_escKeyPressed = false; }
 
 			if(!consoleWasOpen) { return; }
 

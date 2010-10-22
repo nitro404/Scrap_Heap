@@ -19,15 +19,17 @@ namespace SproketEngine {
 		private ScrapHeap m_game;
 		private GameSettings m_settings;
 		private CommandInterpreter m_interpreter;
+		private ControlSystem m_controlSystem;
 		private Menu m_menu;
 		private GameConsole m_console;
 
 		public ScreenManager() { }
 
-		public void initialize(ScrapHeap game, GameSettings settings, CommandInterpreter interpreter, Menu menu, GameConsole console) {
+		public void initialize(ScrapHeap game, GameSettings settings, CommandInterpreter interpreter, ControlSystem controlSystem, Menu menu, GameConsole console) {
 			m_game = game;
 			m_settings = settings;
 			m_interpreter = interpreter;
+			m_controlSystem = controlSystem;
 			m_menu = menu;
 			m_console = console;
 		}
@@ -88,10 +90,10 @@ namespace SproketEngine {
 			if(m_activeScreen == ScreenType.Game) { m_game.handleInput(gameTime); }
 
 			if(m_activeScreen != ScreenType.Console) {
-				m_menu.handleInput();
+				m_menu.handleInput(gameTime);
 			}
 
-			m_console.handleInput();
+			m_console.handleInput(gameTime);
 		}
 
 		public void update(GameTime gameTime) {

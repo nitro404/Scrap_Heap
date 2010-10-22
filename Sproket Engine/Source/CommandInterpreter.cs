@@ -9,33 +9,89 @@ namespace SproketEngine {
 
 		private ScrapHeap m_game;
 		private ScreenManager m_screenManager;
+		private ControlSystem m_controlSystem;
 		private GameSettings m_settings;
 		private GameConsole m_console;
 
 		public CommandInterpreter() { }
 
-		public void initialize(ScrapHeap game, ScreenManager screenManager, GameSettings settings, GameConsole console) {
+		public void initialize(ScrapHeap game, ScreenManager screenManager, ControlSystem controlSystem, GameSettings settings, GameConsole console) {
 			m_game = game;
 			m_screenManager = screenManager;
+			m_controlSystem = controlSystem;
 			m_settings = settings;
 			m_console = console;
 		}
 
-		public void execute(string command) {
-			string cmd = command.Trim().ToLower();
-			if(cmd.StartsWith("quit") || cmd.StartsWith("exit")) { m_game.Exit(); }
-			else if(cmd.StartsWith("clear") || cmd.StartsWith("cls")) { m_console.clear(); }
-			else if(cmd.StartsWith("echo")) { m_console.writeLine(getStringValue(command)); }
-			else if(cmd.StartsWith("menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(command)); }
-			else if(cmd.StartsWith("console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(command)); }
-			else if(cmd.StartsWith("map")) {
-				string levelName = getStringValue(command);
+		public void execute(string cmd) {
+			if(cmd == null) { return; }
+				 if(matchCommand(cmd, "quit") || matchCommand(cmd, "exit")) { m_game.Exit(); }
+			else if(matchCommand(cmd, "clear") || matchCommand(cmd, "cls")) { m_console.clear(); }
+			else if(matchCommand(cmd, "echo")) { m_console.writeLine(getStringValue(cmd)); }
+			else if(matchCommand(cmd, "menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(cmd)); }
+			else if(matchCommand(cmd, "console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(cmd)); }
+			else if(matchCommand(cmd, "map")) {
+				string levelName = getStringValue(cmd);
 				bool levelLoaded = m_game.loadLevel(levelName);
 				if(!levelLoaded) {
 					m_console.writeLine("Unable to load map: " + levelName);
 				}
 			}
-			else { m_console.writeLine("Unknown Command: " + command); }
+			else if(matchCommand(cmd, "bind")) {
+				string bind = getStringValue(cmd);
+				if(bind.Length == 0) {
+					m_console.writeLine("Unable to bind key");
+					return;
+				}
+				int spaceIndex = bind.IndexOf(" ");
+				if(spaceIndex < 0) {
+					m_console.writeLine("Unable to bind key");
+					return;
+				}
+
+				string keyString = bind.Substring(0, spaceIndex);
+				string keyCommand = bind.Substring(spaceIndex + 1, bind.Length - spaceIndex - 1);
+
+				if(m_controlSystem.createKeyBind(keyString, keyCommand)) {
+					m_console.writeLine("Successfully bound key \"" + keyString + "\" to command \"" + keyCommand + "\"");
+				}
+				else {
+					m_console.writeLine("Unable to bind key \"" + keyString + "\" to command \"" + keyCommand + "\"");
+				}
+			}
+			else if(matchCommand(cmd, "unbind")) {
+				string keyString = getStringValue(cmd);
+				if(keyString.Length == 0) {
+					m_console.writeLine("Unable to unbind key \"" + keyString + "\"");
+					return;
+				}
+
+				if(m_controlSystem.removeKeyBind(keyString)) {
+					m_console.writeLine("Successfully unbound key \"" + keyString + "\"");
+				}
+				else {
+					m_console.writeLine("Unable to unbind key \"" + keyString + "\"");
+				}
+			}
+			else if(matchCommand(cmd, "unbindall")) {
+				m_controlSystem.removeAllKeyBinds();
+				m_console.writeLine("Successfully unbound all keys");
+			}
+			else { m_console.writeLine("Unknown command: " + cmd); }
+		}
+
+		private static bool matchCommand(string input, string command) {
+			if(input == null || command == null) { return false; }
+
+			string temp = input.Trim();
+			int spaceIndex = temp.IndexOf(" ");
+
+			string inputCmd;
+			if(spaceIndex < 0) { inputCmd = temp; }
+			else { inputCmd = temp.Substring(0, spaceIndex); }
+
+			if(inputCmd.Length != command.Length) { return false; }
+			return inputCmd.Equals(command, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static string getStringValue(string data) {
