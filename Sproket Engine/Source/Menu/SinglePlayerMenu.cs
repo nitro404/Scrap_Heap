@@ -54,7 +54,7 @@ namespace SproketEngine {
                 m_interpreter.execute("menu off");
                 m_interpreter.execute("map test.bsp");
             }
-			else if(m_index == 1) {
+			else if(m_index == 2) {
 				m_parentMenu.back();
 			}
 		}

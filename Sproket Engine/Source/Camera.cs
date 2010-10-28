@@ -63,8 +63,8 @@ namespace SproketEngine {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
-			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_game.Window.ClientBounds.Y / 2) * m_rotationSpeed * 0.01f); // pitch
-			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_game.Window.ClientBounds.X / 2) * m_rotationSpeed * 0.01f); // yaw
+			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_game.Window.ClientBounds.Y / 2) * m_rotationSpeed * 0.01f);
+			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_game.Window.ClientBounds.X / 2) * m_rotationSpeed * 0.01f);
 
 			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float)Math.Sin(m_rotation.X), (float)Math.Cos(-m_rotation.Y)));
 			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float)Math.Sin(m_rotation.Y)));
@@ -85,7 +85,7 @@ namespace SproketEngine {
 				m_position += m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds * m_left;
 			}
 
-			if(keyboard.IsKeyDown(Keys.LeftShift)) {
+			if(keyboard.IsKeyDown(Keys.Space)) {
 				m_position.Y += m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds;
 			}
 

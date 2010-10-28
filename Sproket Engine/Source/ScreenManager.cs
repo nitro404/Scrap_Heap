@@ -102,7 +102,7 @@ namespace SproketEngine {
 		}
 
 		public void draw(SpriteBatch spriteBatch, GraphicsDevice graphics) {
-			spriteBatch.Begin();
+			spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
 
 			if(m_menu.active) { m_menu.draw(spriteBatch); }
 			if(m_console.active) { m_console.draw(spriteBatch); }
