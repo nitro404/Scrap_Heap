@@ -95,6 +95,8 @@
   <ItemGroup>
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\ControlSystem.cs" />
+    <Compile Include="Source\Enemy.cs" />
+    <Compile Include="Source\Entity.cs" />
     <Compile Include="Source\Key.cs" />
     <Compile Include="Source\Menu\SimpleMenuItem.cs" />
     <Compile Include="Source\Menu\SinglePlayerMenu.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Source\Menu\MenuItem.cs" />
     <Compile Include="Source\Menu\SubMenu.cs" />
     <Compile Include="Source\Menu\Menu.cs" />
+    <Compile Include="Source\Player.cs" />
     <Compile Include="Source\ScreenManager.cs" />
     <Compile Include="Source\CommandInterpreter.cs" />
     <Compile Include="Source\GameConsole.cs" />
