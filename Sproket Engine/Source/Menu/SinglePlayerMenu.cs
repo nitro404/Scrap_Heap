@@ -22,6 +22,8 @@ namespace SproketEngine {
 		public void createMenu() {
 			float x = m_position.X;
 			float y = m_position.Y + m_titleFont.LineSpacing;
+            addItem(new SimpleMenuItem("Core Map", x, y, m_itemFont, m_selectedItemColour, m_unselectedItemColour, m_arrowColour));
+            y += m_itemFont.LineSpacing;
 			addItem(new SimpleMenuItem("Test Map", x, y, m_itemFont, m_selectedItemColour, m_unselectedItemColour, m_arrowColour));
 			y += m_itemFont.LineSpacing;
 			addItem(new SimpleMenuItem("Back", x, y, m_itemFont, m_selectedItemColour, m_unselectedItemColour, m_arrowColour));
@@ -45,8 +47,13 @@ namespace SproketEngine {
 		public override void select() {
 			if(m_index == 0) {
 				m_interpreter.execute("menu off");
-				m_interpreter.execute("map test.bsp");
+				m_interpreter.execute("map core.bsp");
 			}
+            else if (m_index == 1)
+            {
+                m_interpreter.execute("menu off");
+                m_interpreter.execute("map test.bsp");
+            }
 			else if(m_index == 1) {
 				m_parentMenu.back();
 			}
