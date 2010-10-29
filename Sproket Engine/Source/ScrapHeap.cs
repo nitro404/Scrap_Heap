@@ -67,7 +67,7 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
-			camera.initialize(graphics.GraphicsDevice);
+			camera.initialize(settings);
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 

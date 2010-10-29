@@ -16,7 +16,7 @@ namespace SproketEngine {
 		private float m_rotationSpeed = 20.0f;
 		private float m_movementSpeed = 75.0f;
 
-		private float m_fov = 90.0f;
+		private float m_fov = 75.0f;
 		private float m_aspectRatio;
 		private float m_nearPlane = 0.1f;
 		private float m_farPlane = 10000.0f;
@@ -27,14 +27,17 @@ namespace SproketEngine {
 		private Vector3 m_left;
 
 		private ScrapHeap m_game;
+		private GameSettings m_settings;
 
 		public Camera(ScrapHeap game) {
 			m_game = game;
             reset();
 		}
 
-		public void initialize(GraphicsDevice graphics) {
-			m_aspectRatio = graphics.Viewport.Width / graphics.Viewport.Height;
+		public void initialize(GameSettings settings) {
+			m_settings = settings;
+
+			m_aspectRatio = (float) settings.screenWidth / (float) settings.screenHeight;
 
 			m_projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 		}
@@ -63,8 +66,8 @@ namespace SproketEngine {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
-			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_game.Window.ClientBounds.Y / 2) * m_rotationSpeed * 0.01f);
-			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_game.Window.ClientBounds.X / 2) * m_rotationSpeed * 0.01f);
+			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_settings.screenHeight / 2) * m_rotationSpeed * 0.01f);
+			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_settings.screenWidth / 2) * m_rotationSpeed * 0.01f);
 
 			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float)Math.Sin(m_rotation.X), (float)Math.Cos(-m_rotation.Y)));
 			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float)Math.Sin(m_rotation.Y)));
@@ -99,7 +102,7 @@ namespace SproketEngine {
 			m_view *= Matrix.CreateRotationX(m_rotation.X);
 
 			if(m_game.IsActive) {
-				Mouse.SetPosition(m_game.Window.ClientBounds.X / 2, m_game.Window.ClientBounds.Y / 2);
+				Mouse.SetPosition(m_settings.screenWidth / 2, m_settings.screenHeight / 2);
 			}
 
 		}
