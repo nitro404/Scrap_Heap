@@ -13,24 +13,22 @@ namespace SproketEngine {
 		private Matrix m_view;
 		private Matrix m_projection;
 
-		private float m_rotationSpeed = 20.0f;
-		private float m_movementSpeed = 75.0f;
+		protected float m_rotationSpeed = 20.0f;
+		protected float m_movementSpeed = 75.0f;
 
 		private float m_fov = 75.0f;
 		private float m_aspectRatio;
 		private float m_nearPlane = 0.1f;
 		private float m_farPlane = 10000.0f;
 
-		private Vector3 m_position;
-		private Vector3 m_rotation;
+		protected Vector3 m_position;
+		protected Vector3 m_rotation;
 		private Vector3 m_forward;
 		private Vector3 m_left;
 
-		private ScrapHeap m_game;
 		private GameSettings m_settings;
 
-		public Camera(ScrapHeap game) {
-			m_game = game;
+		public Camera() {
             reset();
 		}
 
@@ -54,7 +52,7 @@ namespace SproketEngine {
 			get { return m_projection; }
 		}
 
-		public void reset() {
+		public virtual void reset() {
 			m_position = Vector3.Zero;
 			m_rotation = Vector3.Zero;
 			m_forward = Vector3.Forward;
@@ -62,7 +60,7 @@ namespace SproketEngine {
             m_view = Matrix.Identity;
 		}
 
-		public void handleInput(GameTime gameTime) {
+		public virtual void handleInput(GameTime gameTime, bool gameIsActive) {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
@@ -96,12 +94,11 @@ namespace SproketEngine {
 				m_position.Y -= m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds;
 			}
 
-			m_view = Matrix.Identity;
-			m_view *= Matrix.CreateTranslation(-m_position);
-			m_view *= Matrix.CreateRotationY(m_rotation.Y);
-			m_view *= Matrix.CreateRotationX(m_rotation.X);
+			m_view = Matrix.CreateTranslation(-m_position) *
+					 Matrix.CreateRotationY(m_rotation.Y) *
+					 Matrix.CreateRotationX(m_rotation.X);
 
-			if(m_game.IsActive) {
+			if(gameIsActive) {
 				Mouse.SetPosition(m_settings.screenWidth / 2, m_settings.screenHeight / 2);
 			}
 

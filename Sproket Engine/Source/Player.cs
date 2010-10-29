@@ -9,16 +9,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SproketEngine {
 
-    class Player {
+    class Player : Camera {
 
 		private int m_id;
 		private static int m_idCounter = 0;
 		private string m_name;
 
-		private Vector3 m_position;
-		private Vector3 m_rotation;
 		private Model m_model;
-
 
         private int m_health;
 		private int m_maxHealth = 100;
@@ -26,7 +23,7 @@ namespace SproketEngine {
         private WeaponCollection m_weapons;
         private AmmunitionCollection m_ammo;
 
-		public Player(int playerID, string playerName, Vector3 position, Vector3 rotation, Model model) {
+		public Player(string playerName, Vector3 position, Vector3 rotation, Model model) {
 			m_id = m_idCounter++;
 			m_name = playerName;
 			m_health = m_maxHealth;
@@ -37,10 +34,6 @@ namespace SproketEngine {
 
 			m_ammo = new AmmunitionCollection();
 			m_weapons = new WeaponCollection();
-		}
-
-		public Vector3 position {
-			get { return m_position; }
 		}
 
 		public Vector3 rotation {
@@ -57,6 +50,18 @@ namespace SproketEngine {
 
 		public int health {
 			get { return m_health; }
+		}
+
+		public override void reset() {
+			base.reset();
+		}
+
+		public void update() {
+
+		}
+
+		public override void handleInput(GameTime gameTime, bool gameIsActive) {
+			base.handleInput(gameTime, gameIsActive);
 		}
 
     }

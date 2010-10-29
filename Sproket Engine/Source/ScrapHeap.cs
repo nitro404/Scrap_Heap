@@ -30,7 +30,7 @@ namespace SproketEngine {
 		SpriteBatch spriteBatch;
 
 		Q3BSPLevel level;
-		Camera camera;
+		Player player;
 
 		bool fullScreenKeyPressed = false;
 
@@ -43,7 +43,7 @@ namespace SproketEngine {
 			menu = new Menu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
-			camera = new Camera(this);
+			player = new Player("Player", Vector3.Zero, Vector3.Zero, null);
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
-			camera.initialize(settings);
+			player.initialize(settings);
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
@@ -123,7 +123,7 @@ namespace SproketEngine {
 				return false;
 			}
 
-			camera.reset();
+			player.reset();
 
 			level = newLevel;			
 
@@ -138,9 +138,11 @@ namespace SproketEngine {
 		/// Handles any user input for game interaction.
 		/// </summary>
 		public void handleInput(GameTime gameTime) {
-			camera.handleInput(gameTime);
+			player.handleInput(gameTime, IsActive);
 
 			controlSystem.handleInput(gameTime);
+
+			player.update();
 		}
 
 		/// <summary>
@@ -184,7 +186,7 @@ namespace SproketEngine {
 			GraphicsDevice.Clear(Color.Black);
 
 			if(level != null) {
-				level.RenderLevel(camera.position, camera.view, camera.projection, gameTime, graphics.GraphicsDevice);
+				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
 			}
 
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
