@@ -93,6 +93,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Weapon System\Ammunition.cs" />
+    <Compile Include="Source\Weapon System\AmmunitionCollection.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\ControlSystem.cs" />
     <Compile Include="Source\Enemy.cs" />
@@ -114,6 +116,8 @@
     <Compile Include="Source\ScrapHeap.cs" />
     <Compile Include="Source\Settings File Manager\Variable.cs" />
     <Compile Include="Source\Settings File Manager\VariableSystem.cs" />
+    <Compile Include="Source\Weapon System\Weapon.cs" />
+    <Compile Include="Source\Weapon System\WeaponCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScrapHeap.ico" />
