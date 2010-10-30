@@ -28,9 +28,9 @@ namespace SproketEngine {
 		GameConsole console;
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-
-		Q3BSPLevel level;
 		Player player;
+		Q3BSPLevel level;
+		CollisionSystem collisionSystem;
 
 		bool fullScreenKeyPressed = false;
 
@@ -44,6 +44,7 @@ namespace SproketEngine {
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
 			player = new Player("Player", Vector3.Zero, Vector3.Zero, null);
+			collisionSystem = new CollisionSystem();
 		}
 
 		/// <summary>
@@ -68,6 +69,8 @@ namespace SproketEngine {
 			}
 
 			player.initialize(settings);
+
+			collisionSystem.initialize(this, settings, player, level);
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
@@ -125,7 +128,8 @@ namespace SproketEngine {
 
 			player.reset();
 
-			level = newLevel;			
+			level = newLevel;
+			collisionSystem.level = level;
 
 			return true;
 		}
@@ -142,7 +146,9 @@ namespace SproketEngine {
 
 			controlSystem.handleInput(gameTime);
 
-			player.update();
+			player.update(gameTime);
+
+			collisionSystem.update(gameTime);
 		}
 
 		/// <summary>

@@ -13,6 +13,7 @@ namespace SproketEngine {
 		public int m_screenWidth;
 		public int m_screenHeight;
 		public bool m_fullScreen;
+		public bool m_clipping;
 
 		private VariableSystem m_variables;
 
@@ -21,6 +22,7 @@ namespace SproketEngine {
 			screenWidth = 1024;
 			screenHeight = 768;
 			fullScreen = false;
+			clipping = true;
 		}
 
 		public static string defaultFileName {
@@ -40,6 +42,11 @@ namespace SproketEngine {
 		public bool fullScreen {
 			get { return m_fullScreen; }
 			set { m_fullScreen = value; }
+		}
+
+		public bool clipping {
+			get { return m_clipping; }
+			set { m_clipping = value; }
 		}
 
 		public List<Variable> getControls() {

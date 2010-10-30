@@ -22,6 +22,7 @@ namespace SproketEngine {
 		private float m_farPlane = 10000.0f;
 
 		protected Vector3 m_position;
+		protected Vector3 m_lastPosition;
 		protected Vector3 m_rotation;
 		private Vector3 m_forward;
 		private Vector3 m_left;
@@ -42,6 +43,11 @@ namespace SproketEngine {
 
 		public Vector3 position {
 			get { return m_position; }
+			set { m_position = value; }
+		}
+
+		public Vector3 lastPosition {
+			get { return m_lastPosition; }
 		}
 
 		public Matrix view {
@@ -54,6 +60,7 @@ namespace SproketEngine {
 
 		public virtual void reset() {
 			m_position = Vector3.Zero;
+			m_lastPosition = m_position;
 			m_rotation = Vector3.Zero;
 			m_forward = Vector3.Forward;
 			m_left = Vector3.Left;
@@ -64,34 +71,38 @@ namespace SproketEngine {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
+			m_lastPosition = m_position;
+
+			float timeElapsed = (float) gameTime.ElapsedGameTime.TotalSeconds;
+
 			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_settings.screenHeight / 2) * m_rotationSpeed * 0.01f);
 			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_settings.screenWidth / 2) * m_rotationSpeed * 0.01f);
 
-			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float)Math.Sin(m_rotation.X), (float)Math.Cos(-m_rotation.Y)));
-			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float)Math.Sin(m_rotation.Y)));
+			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float) Math.Sin(m_rotation.X), (float) Math.Cos(-m_rotation.Y)));
+			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float) Math.Sin(m_rotation.Y)));
 
 			if(keyboard.IsKeyDown(Keys.W)) {
-				m_position -= m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds * m_forward;
+				m_position -= m_movementSpeed * timeElapsed * m_forward;
 			}
 
 			if(keyboard.IsKeyDown(Keys.S)) {
-				m_position += m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds * m_forward;
+				m_position += m_movementSpeed * timeElapsed * m_forward;
 			}
 
 			if(keyboard.IsKeyDown(Keys.A)) {
-				m_position -= m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds * m_left;
+				m_position -= m_movementSpeed * timeElapsed * m_left;
 			}
 
 			if(keyboard.IsKeyDown(Keys.D)) {
-				m_position += m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds * m_left;
+				m_position += m_movementSpeed * timeElapsed * m_left;
 			}
 
 			if(keyboard.IsKeyDown(Keys.Space)) {
-				m_position.Y += m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds;
+				m_position.Y += m_movementSpeed * timeElapsed;
 			}
 
 			if(keyboard.IsKeyDown(Keys.LeftControl)) {
-				m_position.Y -= m_movementSpeed * (float) gameTime.ElapsedGameTime.TotalSeconds;
+				m_position.Y -= m_movementSpeed * timeElapsed;
 			}
 
 			m_view = Matrix.CreateTranslation(-m_position) *

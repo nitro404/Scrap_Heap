@@ -5,6 +5,8 @@ using System.Text;
 
 namespace SproketEngine {
 
+	enum BoolChange { None, Toggle, Enable, Disable }
+
 	class CommandInterpreter {
 
 		private ScrapHeap m_game;
@@ -30,6 +32,18 @@ namespace SproketEngine {
 			else if(matchCommand(cmd, "echo")) { m_console.writeLine(getStringValue(cmd)); }
 			else if(matchCommand(cmd, "menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(cmd)); }
 			else if(matchCommand(cmd, "console")) { m_screenManager.set(ScreenType.Console, getScreenVisibilityChange(cmd)); }
+			else if(matchCommand(cmd, "noclip")) {
+				BoolChange change = getBoolChange(cmd);
+				if(change == BoolChange.Enable) {
+					m_settings.clipping = false;
+				}
+				else if(change == BoolChange.Disable) {
+					m_settings.clipping = true;
+				}
+				else if(change == BoolChange.Toggle) {
+					m_settings.clipping = !m_settings.clipping;
+				}
+			}
 			else if(matchCommand(cmd, "map")) {
 				string levelName = getStringValue(cmd);
 				bool levelLoaded = m_game.loadLevel(levelName);
@@ -139,6 +153,30 @@ namespace SproketEngine {
 			}
 
 			return ScreenVisibilityChange.None;
+		}
+
+		public static BoolChange getBoolChange(string data) {
+			string temp = getStringValue(data).Trim().ToLower();
+
+			if(temp.Equals("toggle", StringComparison.OrdinalIgnoreCase)) {
+				return BoolChange.Toggle;
+			}
+
+			if(temp.Equals("1", StringComparison.OrdinalIgnoreCase) || 
+			   temp.Equals("on", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("enable", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("true", StringComparison.OrdinalIgnoreCase)) {
+				return BoolChange.Enable;
+			}
+
+			if(temp.Equals("0", StringComparison.OrdinalIgnoreCase) || 
+			   temp.Equals("off", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("disable", StringComparison.OrdinalIgnoreCase) ||
+			   temp.Equals("false", StringComparison.OrdinalIgnoreCase)) {
+				return BoolChange.Disable;
+			}
+
+			return BoolChange.None;
 		}
 
 	}
