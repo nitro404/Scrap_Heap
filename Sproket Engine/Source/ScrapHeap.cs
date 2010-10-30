@@ -29,6 +29,8 @@ namespace SproketEngine {
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		Player player;
+        //TEMP
+        Enemy enemy;
 		Q3BSPLevel level;
 		CollisionSystem collisionSystem;
 
@@ -95,6 +97,9 @@ namespace SproketEngine {
 			menu.loadContent(Content);
 
 			console.loadContent(Content);
+
+            //TEMP
+            enemy = new Enemy(new Vector3(0, 100, 0), new Vector3(0, 0, 0), Content.Load<Model>("Models\\BasicRobo"));
 		}
 
 		/// <summary>
@@ -194,6 +199,8 @@ namespace SproketEngine {
 			if(level != null) {
 				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
 			}
+
+            enemy.draw(player.view, player.projection);
 
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 

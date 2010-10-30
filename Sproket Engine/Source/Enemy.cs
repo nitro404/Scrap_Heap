@@ -42,6 +42,27 @@ namespace SproketEngine {
 			get { return m_health; }
 		}
 
+        public void draw(Matrix view, Matrix projection)
+        {
+            //TODO: Rotation
+            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * Matrix.CreateTranslation(position);
+
+            Matrix[] transforms = new Matrix[m_model.Bones.Count];
+            m_model.CopyAbsoluteBoneTransformsTo(transforms);
+            foreach (ModelMesh mesh in m_model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
+                    effect.View = view;
+                    effect.Projection = projection;
+
+                }
+                mesh.Draw();
+            }
+        }
+
     }
 
 }
