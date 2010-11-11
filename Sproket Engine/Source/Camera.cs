@@ -81,46 +81,38 @@ namespace SproketEngine {
 			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float) Math.Sin(m_rotation.X), (float) Math.Cos(-m_rotation.Y)));
 			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float) Math.Sin(m_rotation.Y)));
 
-/*			if(keyboard.IsKeyDown(Keys.W)) {
-				m_position -= m_movementSpeed * timeElapsed * m_forward;
+            Vector3 moveForward;
+            Vector3 moveLeft = m_left;
+
+            if (m_settings.m_clipping) { //Clipping On
+                moveForward = new Vector3(m_forward.X, 0, m_forward.Z);
+                moveLeft = new Vector3(m_left.X, 0, m_left.Z);
+            }
+            else {
+                moveForward = m_forward;
+                moveLeft = m_left;
             }
 
-            if (keyboard.IsKeyDown(Keys.S))
-            {
-                m_position += m_movementSpeed * timeElapsed * m_forward;
-            }
-
-            if (keyboard.IsKeyDown(Keys.A))
-            {
-                m_position -= m_movementSpeed * timeElapsed * m_left;
-            }
-
-            if (keyboard.IsKeyDown(Keys.D))
-            {
-                m_position += m_movementSpeed * timeElapsed * m_left;
-            }
-*/
             if(keyboard.IsKeyDown(Keys.W)) {
-                m_position -= m_movementSpeed * timeElapsed * new Vector3(m_forward.X, 0, m_forward.Z);
+				m_position -= m_movementSpeed * timeElapsed * moveForward;
             }
 
             if (keyboard.IsKeyDown(Keys.S))
             {
-                m_position += m_movementSpeed * timeElapsed * new Vector3(m_forward.X, 0, m_forward.Z);
+                m_position += m_movementSpeed * timeElapsed * moveForward;
             }
 
             if (keyboard.IsKeyDown(Keys.A))
             {
-                m_position -= m_movementSpeed * timeElapsed * new Vector3(m_left.X, 0, m_left.Z);
+                m_position -= m_movementSpeed * timeElapsed * moveLeft;
             }
 
             if (keyboard.IsKeyDown(Keys.D))
             {
-                m_position += m_movementSpeed * timeElapsed * new Vector3(m_left.X, 0, m_left.Z);
+                m_position += m_movementSpeed * timeElapsed * moveLeft;
             }
-
 			if(keyboard.IsKeyDown(Keys.Space)) {
-				m_position.Y += m_movementSpeed * timeElapsed;
+				m_position.Y += m_movementSpeed*2 * timeElapsed;
 			}
 
 			if(keyboard.IsKeyDown(Keys.LeftControl)) {
