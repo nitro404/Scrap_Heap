@@ -12,6 +12,9 @@ namespace SproketEngine {
 		private ScrapHeap m_game;
 		private Player m_player;
 		private Q3BSPLevel m_level;
+
+        private Vector3 m_mins = new Vector3(-2, -8, -2);
+        private Vector3 m_maxs = new Vector3(2, 2, 2);
 		private GameSettings m_settings;
 
 		public CollisionSystem() {
@@ -32,8 +35,7 @@ namespace SproketEngine {
 
 		public void update(GameTime gameTime) {
 			if(!m_settings.clipping) { return; }
-
-			Q3BSPCollisionData collision = m_level.TraceRay(m_player.lastPosition, m_player.position);
+			Q3BSPCollisionData collision = m_level.TraceBox(m_player.lastPosition, m_player.position, m_mins, m_maxs);
 			m_player.position = collision.collisionPoint;
 		}
 
