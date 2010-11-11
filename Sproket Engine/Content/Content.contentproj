@@ -64,8 +64,8 @@
       <Name>test</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="basicQ3Effect.fx">
-      <Name>basicQ3Effect</Name>
+    <Compile Include="Shaders\Q3BasicEffect.fx">
+      <Name>Q3BasicEffect</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
