@@ -36,7 +36,11 @@ namespace SproketEngine {
 		public void update(GameTime gameTime) {
 			if(!m_settings.clipping) { return; }
 			Q3BSPCollisionData collision = m_level.TraceBox(m_player.lastPosition, m_player.position, m_mins, m_maxs);
-			m_player.position = collision.collisionPoint;
+			Vector3 point = collision.collisionPoint;
+
+            Vector3 newposition = point - new Vector3(0, 1, 0);
+            collision = m_level.TraceBox(point, newposition, m_mins, m_maxs);
+            m_player.position = collision.collisionPoint;
 		}
 
 	}
