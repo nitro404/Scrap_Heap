@@ -29,10 +29,10 @@ namespace SproketEngine {
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		Player player;
-        //TEMP
-        Enemy enemy;
 		Q3BSPLevel level;
 		CollisionSystem collisionSystem;
+		RenderTarget2D buffer;
+		Effect blur;
 
 		bool fullScreenKeyPressed = false;
 
@@ -70,6 +70,8 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
+			buffer = new RenderTarget2D(graphics.GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 1, GraphicsDevice.DisplayMode.Format);
+
 			player.initialize(settings);
 
 			collisionSystem.initialize(this, settings, player, level);
@@ -98,8 +100,7 @@ namespace SproketEngine {
 
 			console.loadContent(Content);
 
-            //TEMP
-            enemy = new Enemy(new Vector3(0, 100, 0), new Vector3(0, 0, 0), Content.Load<Model>("Models\\BasicRobo"));
+			blur = Content.Load<Effect>("Shaders\\Blur");
 		}
 
 		/// <summary>
@@ -122,7 +123,7 @@ namespace SproketEngine {
 
 			try {
 				if(newLevel.LoadFromFile(Content.RootDirectory + "/maps/" + newLevel.BasePath + (addBsp ? ".bsp" : ""))) {
-					if(!newLevel.InitializeLevel(GraphicsDevice, Content, @"shaders\")) {
+					if(!newLevel.InitializeLevel(GraphicsDevice, Content, @"Shaders\")) {
 						return false;
 					}
 				}
@@ -194,13 +195,34 @@ namespace SproketEngine {
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime) {
+			graphics.GraphicsDevice.SetRenderTarget(0, buffer);
 			GraphicsDevice.Clear(Color.Black);
 
 			if(level != null) {
 				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
 			}
 
-            enemy.draw(player.view, player.projection);
+			graphics.GraphicsDevice.SetRenderTarget(0, null);
+
+			// blur game screen if menu is open
+			if(menu.active) {
+				blur.Begin();
+				spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+				foreach(EffectTechnique t in blur.Techniques) {
+					foreach(EffectPass p in t.Passes) {
+						p.Begin();
+						spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
+						p.End();
+					}
+				}
+				spriteBatch.End();
+				blur.End();
+			}
+			else {
+				spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+				spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
+				spriteBatch.End();
+			}
 
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 
