@@ -132,10 +132,22 @@ namespace SproketEngine {
 				return false;
 			}
 
-			player.reset();
-
 			level = newLevel;
 			collisionSystem.level = level;
+
+			player.reset();
+
+			Q3BSPEntity spawn = level.GetEntity("info_player_start");
+
+			if(spawn != null) {
+				Vector3 position = Q3BSPLevel.GetXNAPosition(spawn);
+
+				// offset spawn position to bottom-center of entity
+				// subtract 0.001 to prevent falling through level
+				position.Y -= 5.999f;
+
+				player.position = position;
+			}
 
 			return true;
 		}
