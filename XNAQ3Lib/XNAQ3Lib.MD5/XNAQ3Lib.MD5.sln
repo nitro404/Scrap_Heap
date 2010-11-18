@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNAQ3Lib.MD5", "XNAQ3Lib.MD5.csproj", "{F0028773-EBC3-4D08-98C6-9419463A2CFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0028773-EBC3-4D08-98C6-9419463A2CFC}.Debug|x86.ActiveCfg = Debug|x86
+		{F0028773-EBC3-4D08-98C6-9419463A2CFC}.Debug|x86.Build.0 = Debug|x86
+		{F0028773-EBC3-4D08-98C6-9419463A2CFC}.Release|x86.ActiveCfg = Release|x86
+		{F0028773-EBC3-4D08-98C6-9419463A2CFC}.Release|x86.Build.0 = Release|x86
+		{5A6657F2-823C-4AC0-B68C-089E18166F56}.Debug|x86.ActiveCfg = Debug|x86
+		{5A6657F2-823C-4AC0-B68C-089E18166F56}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
