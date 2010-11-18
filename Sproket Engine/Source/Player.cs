@@ -22,6 +22,11 @@ namespace SproketEngine {
 		private Vector3 m_forward;
 		private Vector3 m_left;
 
+		private bool m_movingForward = false;
+		private bool m_movingBackward = false;
+		private bool m_movingLeft = false;
+		private bool m_movingRight = false;
+
 		private Vector3 m_dimensions = new Vector3(4, 14, 4);
 		private Vector3 m_minPoint;
 		private Vector3 m_maxPoint;
@@ -82,6 +87,22 @@ namespace SproketEngine {
 			get { return m_rotation; }
 		}
 
+		public bool movingForward {
+			get { return m_movingForward; }
+		}
+
+		public bool movingBackward {
+			get { return m_movingBackward; }
+		}
+
+		public bool movingLeft {
+			get { return m_movingLeft; }
+		}
+
+		public bool movingRight {
+			get { return m_movingRight; }
+		}
+
 		public Vector3 dimensions {
 			get { return m_dimensions; }
 		}
@@ -131,6 +152,11 @@ namespace SproketEngine {
 			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
 
+			m_movingForward = false;
+			m_movingBackward = false;
+			m_movingLeft = false;
+			m_movingRight = false;
+
 			m_lastPosition = m_position;
 
 			float timeElapsed = (float) gameTime.ElapsedGameTime.TotalSeconds;
@@ -155,18 +181,38 @@ namespace SproketEngine {
 
             if(keyboard.IsKeyDown(Keys.W)) {
 				m_position -= m_movementSpeed * timeElapsed * moveForward;
+
+				m_movingForward = true;
             }
 
             if (keyboard.IsKeyDown(Keys.S)) {
                 m_position += m_movementSpeed * timeElapsed * moveForward;
+
+				if(m_movingForward) {
+					m_movingForward = false;
+					m_movingBackward = false;
+				}
+				else {
+					m_movingBackward = true;
+				}
             }
 
             if (keyboard.IsKeyDown(Keys.A)) {
                 m_position -= m_movementSpeed * timeElapsed * moveLeft;
+
+				m_movingLeft = true;
             }
 
             if (keyboard.IsKeyDown(Keys.D)) {
                 m_position += m_movementSpeed * timeElapsed * moveLeft;
+
+				if(m_movingLeft) {
+					m_movingLeft = false;
+					m_movingRight = false;
+				}
+				else {
+					m_movingRight = true;
+				}
             }
 
 			if(keyboard.IsKeyDown(Keys.Space)) {
