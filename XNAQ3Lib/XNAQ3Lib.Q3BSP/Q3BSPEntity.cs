@@ -89,6 +89,15 @@ namespace XNAQ3Lib.Q3BSP
             return false;
         }
 
+		public int NumberOfEntities() {
+			return entities.Length;
+		}
+
+		public Q3BSPEntity GetEntity(int index) {
+			if(index < 0 || index >= entities.Length) { return null; }
+			return entities[index];
+		}
+
 		public Q3BSPEntity GetEntity(string entityName) {
 			if(entityName == null) { return null; }
 			string tempName = entityName.Trim();

@@ -30,6 +30,7 @@ namespace SproketEngine {
 		SpriteBatch spriteBatch;
 		Player player;
 		Q3BSPLevel level;
+		EntitySystem entitySystem;
 		CollisionSystem collisionSystem;
 		RenderTarget2D buffer;
 		Effect blur;
@@ -47,6 +48,7 @@ namespace SproketEngine {
 			Content.RootDirectory = "Content";
 			player = new Player("Player", Vector3.Zero, Vector3.Zero, null);
 			collisionSystem = new CollisionSystem();
+			entitySystem = new EntitySystem();
 		}
 
 		/// <summary>
@@ -100,6 +102,8 @@ namespace SproketEngine {
 
 			console.loadContent(Content);
 
+			entitySystem.loadContent(Content);
+
 			blur = Content.Load<Effect>("Shaders\\Blur");
 		}
 
@@ -134,6 +138,7 @@ namespace SproketEngine {
 
 			level = newLevel;
 			collisionSystem.level = level;
+			entitySystem.initialize(level);
 
 			player.reset();
 
@@ -213,6 +218,8 @@ namespace SproketEngine {
 			if(level != null) {
 				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
 			}
+
+			entitySystem.draw(graphics.GraphicsDevice, player.view, player.projection);
 
 			graphics.GraphicsDevice.SetRenderTarget(0, null);
 

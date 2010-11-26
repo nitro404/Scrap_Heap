@@ -69,7 +69,15 @@ namespace XNAQ3Lib.Q3BSP
 
             bspLogger = new Q3BSPLogger("log.txt");
         }
-		
+
+		public int NumberOfEntities() {
+			return entityManager.NumberOfEntities();
+		}
+
+		public Q3BSPEntity GetEntity(int index) {
+			return entityManager.GetEntity(index);
+		}
+
 		public Q3BSPEntity GetEntity(string entityName) {
 			return entityManager.GetEntity(entityName);
 		}

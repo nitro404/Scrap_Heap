@@ -49,8 +49,8 @@ namespace SproketEngine {
 
             Matrix[] transforms = new Matrix[m_model.Bones.Count];
             m_model.CopyAbsoluteBoneTransformsTo(transforms);
-            foreach (ModelMesh mesh in m_model.Meshes) {
-                foreach (BasicEffect effect in mesh.Effects) {
+            foreach(ModelMesh mesh in m_model.Meshes) {
+                foreach(BasicEffect effect in mesh.Effects) {
                     effect.EnableDefaultLighting();
                     effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
                     effect.View = view;

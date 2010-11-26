@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\CollisionSystem.cs" />
+    <Compile Include="Source\EntitySystem.cs" />
     <Compile Include="Source\GameConstants.cs" />
     <Compile Include="Source\Weapon System\Ammunition.cs" />
     <Compile Include="Source\Weapon System\AmmunitionCollection.cs" />
