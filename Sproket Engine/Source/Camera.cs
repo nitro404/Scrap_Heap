@@ -10,7 +10,6 @@ namespace SproketEngine {
 
 	class Camera {
 
-		private Matrix m_view;
 		private Matrix m_projection;
 
 		private float m_fov = 75.0f;
@@ -22,10 +21,6 @@ namespace SproketEngine {
 
 		private GameSettings m_settings;
 
-		public Camera() {
-            reset();
-		}
-
 		public void initialize(GameSettings settings) {
 			m_settings = settings;
 
@@ -34,22 +29,14 @@ namespace SproketEngine {
 			m_projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 		}
 
-		public Matrix view {
-			get { return m_view; }
+		public Matrix getView(Vector3 position, Vector3 rotation) {
+			return Matrix.CreateTranslation(-(position + m_cameraOffset)) *
+				   Matrix.CreateRotationY(rotation.Y) *
+				   Matrix.CreateRotationX(rotation.X);
 		}
 
 		public Matrix projection {
 			get { return m_projection; }
-		}
-
-		public virtual void reset() {
-            m_view = Matrix.Identity;
-		}
-
-		public void update(GameTime gameTime, Vector3 position, Vector3 rotation) {
-			m_view = Matrix.CreateTranslation(-(position + m_cameraOffset)) *
-					 Matrix.CreateRotationY(rotation.Y) *
-					 Matrix.CreateRotationX(rotation.X);
 		}
 
 	}

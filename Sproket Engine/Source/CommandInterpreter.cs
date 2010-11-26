@@ -10,6 +10,7 @@ namespace SproketEngine {
 	class CommandInterpreter {
 
 		private ScrapHeap m_game;
+		private Player m_player;
 		private ScreenManager m_screenManager;
 		private ControlSystem m_controlSystem;
 		private GameSettings m_settings;
@@ -17,8 +18,9 @@ namespace SproketEngine {
 
 		public CommandInterpreter() { }
 
-		public void initialize(ScrapHeap game, ScreenManager screenManager, ControlSystem controlSystem, GameSettings settings, GameConsole console) {
+		public void initialize(ScrapHeap game, Player player, ScreenManager screenManager, ControlSystem controlSystem, GameSettings settings, GameConsole console) {
 			m_game = game;
+			m_player = player;
 			m_screenManager = screenManager;
 			m_controlSystem = controlSystem;
 			m_settings = settings;
@@ -27,7 +29,7 @@ namespace SproketEngine {
 
 		public void execute(string cmd) {
 			if(cmd == null) { return; }
-				 if(matchCommand(cmd, "quit") || matchCommand(cmd, "exit")) { m_game.Exit(); }
+			if(matchCommand(cmd, "quit") || matchCommand(cmd, "exit")) { m_game.Exit(); }
 			else if(matchCommand(cmd, "clear") || matchCommand(cmd, "cls")) { m_console.clear(); }
 			else if(matchCommand(cmd, "echo")) { m_console.writeLine(getStringValue(cmd)); }
 			else if(matchCommand(cmd, "menu")) { m_screenManager.set(ScreenType.Menu, getScreenVisibilityChange(cmd)); }
@@ -91,6 +93,10 @@ namespace SproketEngine {
 				m_controlSystem.removeAllKeyBinds();
 				m_console.writeLine("Successfully unbound all keys");
 			}
+			else if(matchCommand(cmd, "moveforward")) { m_player.moveForward(); }
+			else if(matchCommand(cmd, "movebackward")) { m_player.moveBackward(); }
+			else if(matchCommand(cmd, "moveleft")) { m_player.moveLeft(); }
+			else if(matchCommand(cmd, "moveright")) { m_player.moveRight(); }
 			else { m_console.writeLine("Unknown command: " + cmd); }
 		}
 

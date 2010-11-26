@@ -32,12 +32,16 @@ namespace SproketEngine {
 		}
 
 		public void update(GameTime gameTime) {
-			if(!m_settings.clipping) { return; }
-			Q3BSPCollisionData collision = m_level.TraceBox(m_player.lastPosition, m_player.position, m_player.minPoint, m_player.maxPoint);
+			if(!m_settings.clipping) {
+				m_player.position = m_player.newPosition;
+				return;
+			}
+
+			Q3BSPCollisionData collision = m_level.TraceBox(m_player.position, m_player.newPosition, m_player.minPoint, m_player.maxPoint);
 			Vector3 point = collision.collisionPoint;
 
-            Vector3 newposition = point - new Vector3(0, 1, 0);
-            collision = m_level.TraceBox(point, newposition, m_player.minPoint, m_player.maxPoint);
+            Vector3 newPosition = point - new Vector3(0, 1, 0);
+			collision = m_level.TraceBox(point, newPosition, m_player.minPoint, m_player.maxPoint);
             m_player.position = collision.collisionPoint;
 		}
 

@@ -10,37 +10,37 @@ using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
 
-    class Player {
+	class Player {
 
 		private int m_id;
 		private static int m_idCounter = 0;
 		private string m_name;
 
+		private bool m_moving;
 		private Vector3 m_position;
-		private Vector3 m_lastPosition;
+		private Vector3 m_newPosition;
+		private Vector3 m_velocity;
+		private Vector3 m_gravity;
 		private Vector3 m_rotation;
 		private Vector3 m_forward;
 		private Vector3 m_left;
-
-		private bool m_movingForward = false;
-		private bool m_movingBackward = false;
-		private bool m_movingLeft = false;
-		private bool m_movingRight = false;
 
 		private Vector3 m_dimensions = new Vector3(4, 14, 4);
 		private Vector3 m_minPoint;
 		private Vector3 m_maxPoint;
 
 		private float m_rotationSpeed = 20.0f;
-		private float m_movementSpeed = 75.0f;
+		private float m_movementSpeed = 10.0f;
+		private float m_acceleration = 6.0f;
+		private float m_deceleration = -50.0f;
 
 		private Model m_model;
 
-        private int m_health;
+		private int m_health;
 		private int m_maxHealth = 100;
 
-        private WeaponCollection m_weapons;
-        private AmmunitionCollection m_ammo;
+		private WeaponCollection m_weapons;
+		private AmmunitionCollection m_ammo;
 
 		private Camera m_camera;
 
@@ -52,8 +52,12 @@ namespace SproketEngine {
 			m_health = m_maxHealth;
 
 			m_position = position;
+			m_newPosition = position;
 			m_rotation = rotation;
-			
+			m_velocity = Vector3.Zero;
+			m_gravity = Vector3.Zero;
+			m_moving = false;
+
 			float xSize = (m_dimensions.X / 2);
 			float ySize = m_dimensions.Y;
 			float zSize = (m_dimensions.Z / 2);
@@ -79,28 +83,21 @@ namespace SproketEngine {
 			set { m_position = value; }
 		}
 
-		public Vector3 lastPosition {
-			get { return m_lastPosition; }
+		public Vector3 velocity {
+			get { return m_velocity; }
+			set { m_velocity = value; }
+		}
+
+		public Vector3 gravity {
+			get { return m_gravity; }
+		}
+
+		public Vector3 newPosition {
+			get { return m_newPosition; }
 		}
 
 		public Vector3 rotation {
 			get { return m_rotation; }
-		}
-
-		public bool movingForward {
-			get { return m_movingForward; }
-		}
-
-		public bool movingBackward {
-			get { return m_movingBackward; }
-		}
-
-		public bool movingLeft {
-			get { return m_movingLeft; }
-		}
-
-		public bool movingRight {
-			get { return m_movingRight; }
 		}
 
 		public Vector3 dimensions {
@@ -112,11 +109,11 @@ namespace SproketEngine {
 		}
 
 		public Vector3 maxPoint {
-			get { return m_maxPoint ; }
+			get { return m_maxPoint; }
 		}
 
 		public Matrix view {
-			get { return m_camera.view; }
+			get { return m_camera.getView(m_position, m_rotation); }
 		}
 
 		public Matrix projection {
@@ -135,31 +132,71 @@ namespace SproketEngine {
 			get { return m_health; }
 		}
 
+		public void resetGravity() {
+			m_gravity = Vector3.Zero;
+		}
+
 		public void reset() {
-			m_camera.reset();
+			m_moving = false;
 			position = Vector3.Zero;
-			m_lastPosition = m_position;
+			m_newPosition = m_position;
 			m_rotation = Vector3.Zero;
 			m_forward = Vector3.Forward;
 			m_left = Vector3.Left;
+			m_gravity = Vector3.Zero;
+			m_velocity = Vector3.Zero;
 		}
 
 		public void update(GameTime gameTime) {
 
+			// compute acceleration vector
+			float acceleration = (m_moving) ? m_acceleration : m_deceleration;
+			Vector3 tempVelocity = new Vector3(m_velocity.X, m_velocity.Y, m_velocity.Z);
+			if(tempVelocity.Length() != 0) { tempVelocity.Normalize(); }
+			Vector3 accelerationVector = tempVelocity * acceleration;
+
+			// apply acceleration to the velocity
+			m_velocity += accelerationVector * (float) gameTime.ElapsedGameTime.TotalSeconds;
+
+			// clamp speed
+			if(m_velocity.Length() > m_movementSpeed) {
+				m_velocity.Normalize();
+				m_velocity *= m_movementSpeed;
+			}
+			else if(m_velocity.Length() < 1) {
+				m_velocity = Vector3.Zero;
+			}
+
+			// set new position (for use in collision system)
+			m_newPosition = m_position + (m_velocity * 7.0f * (float) gameTime.ElapsedGameTime.TotalSeconds);
+
+			// compute gravity
+			m_gravity.Y += GameConstants.GRAVITY * m_acceleration * (float) gameTime.ElapsedGameTime.TotalSeconds;
+
+		}
+
+		public void moveForward() {
+			m_velocity -= new Vector3(m_forward.X, 0, m_forward.Z);
+			m_moving = true;
+		}
+
+		public void moveBackward() {
+			m_velocity += new Vector3(m_forward.X, 0, m_forward.Z);
+			m_moving = true;
+		}
+
+		public void moveLeft() {
+			m_velocity -= new Vector3(m_left.X, 0, m_left.Z);
+			m_moving = true;
+		}
+
+		public void moveRight() {
+			m_velocity += new Vector3(m_left.X, 0, m_left.Z);
+			m_moving = true;
 		}
 
 		public void handleInput(GameTime gameTime, bool gameIsActive) {
-			KeyboardState keyboard = Keyboard.GetState();
 			MouseState mouse = Mouse.GetState();
-
-			m_movingForward = false;
-			m_movingBackward = false;
-			m_movingLeft = false;
-			m_movingRight = false;
-
-			m_lastPosition = m_position;
-
-			float timeElapsed = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
 			m_rotation.X += MathHelper.ToRadians((mouse.Y - m_settings.screenHeight / 2) * m_rotationSpeed * 0.01f);
 			m_rotation.Y += MathHelper.ToRadians((mouse.X - m_settings.screenWidth / 2) * m_rotationSpeed * 0.01f);
@@ -167,69 +204,13 @@ namespace SproketEngine {
 			m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float) Math.Sin(m_rotation.X), (float) Math.Cos(-m_rotation.Y)));
 			m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float) Math.Sin(m_rotation.Y)));
 
-            Vector3 moveForward;
-            Vector3 moveLeft;
-
-            if (m_settings.m_clipping) {
-                moveForward = new Vector3(m_forward.X, 0, m_forward.Z);
-                moveLeft = new Vector3(m_left.X, 0, m_left.Z);
-            }
-            else {
-                moveForward = m_forward;
-                moveLeft = m_left;
-            }
-
-            if(keyboard.IsKeyDown(Keys.W)) {
-				m_position -= m_movementSpeed * timeElapsed * moveForward;
-
-				m_movingForward = true;
-            }
-
-            if (keyboard.IsKeyDown(Keys.S)) {
-                m_position += m_movementSpeed * timeElapsed * moveForward;
-
-				if(m_movingForward) {
-					m_movingForward = false;
-					m_movingBackward = false;
-				}
-				else {
-					m_movingBackward = true;
-				}
-            }
-
-            if (keyboard.IsKeyDown(Keys.A)) {
-                m_position -= m_movementSpeed * timeElapsed * moveLeft;
-
-				m_movingLeft = true;
-            }
-
-            if (keyboard.IsKeyDown(Keys.D)) {
-                m_position += m_movementSpeed * timeElapsed * moveLeft;
-
-				if(m_movingLeft) {
-					m_movingLeft = false;
-					m_movingRight = false;
-				}
-				else {
-					m_movingRight = true;
-				}
-            }
-
-			if(keyboard.IsKeyDown(Keys.Space)) {
-				m_position.Y += m_movementSpeed*2 * timeElapsed;
-			}
-
-			if(keyboard.IsKeyDown(Keys.LeftControl)) {
-				m_position.Y -= m_movementSpeed * timeElapsed;
-			}
-
-			m_camera.update(gameTime, m_position, m_rotation);
-
 			if(gameIsActive) {
 				Mouse.SetPosition(m_settings.screenWidth / 2, m_settings.screenHeight / 2);
 			}
+
+			m_moving = false;
 		}
 
-    }
+	}
 
 }

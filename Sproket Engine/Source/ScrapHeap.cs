@@ -78,7 +78,7 @@ namespace SproketEngine {
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
-			interpreter.initialize(this, screenManager, controlSystem, settings, console);
+			interpreter.initialize(this, player, screenManager, controlSystem, settings, console);
 
 			controlSystem.initialize(settings, interpreter);
 
