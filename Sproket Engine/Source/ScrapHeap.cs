@@ -102,6 +102,8 @@ namespace SproketEngine {
 
 			console.loadContent(Content);
 
+			player.loadContent(Content);
+
 			entitySystem.loadContent(Content);
 
 			blur = Content.Load<Effect>("Shaders\\Blur");
@@ -217,9 +219,11 @@ namespace SproketEngine {
 
 			if(level != null) {
 				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
-			}
 
-			entitySystem.draw(graphics.GraphicsDevice, player.view, player.projection);
+				entitySystem.draw(player.view, player.projection);
+
+				player.draw();
+			}
 
 			graphics.GraphicsDevice.SetRenderTarget(0, null);
 

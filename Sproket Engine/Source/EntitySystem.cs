@@ -56,7 +56,7 @@ namespace SproketEngine {
 			}
 		}
 
-		public void draw(GraphicsDevice graphics, Matrix view, Matrix projection) {
+		public void draw(Matrix view, Matrix projection) {
 			if(m_level == null) { return; }
 
 			for(int i=0;i<m_enemies.Count();i++) {

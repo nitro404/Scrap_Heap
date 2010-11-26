@@ -72,10 +72,16 @@ namespace SproketEngine {
 			m_camera = new Camera();
 		}
 
+		public void loadContent(ContentManager content) {
+			m_weapons.loadContent(content);
+		}
+
 		public void initialize(GameSettings settings) {
 			m_settings = settings;
 
 			m_camera.initialize(settings);
+
+			m_weapons.initialize();
 		}
 
 		public Vector3 position {
@@ -209,6 +215,10 @@ namespace SproketEngine {
 			}
 
 			m_moving = false;
+		}
+
+		public void draw() {
+			m_weapons.draw(position, m_forward, rotation, view, projection);
 		}
 
 	}
