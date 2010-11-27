@@ -20,20 +20,23 @@ namespace SproketEngine {
 
 		public void draw(Vector3 position, Vector3 forward, Vector3 rotation, Matrix view, Matrix projection) {
 			Matrix worldMatrix = Matrix.Identity;
-			worldMatrix *= Matrix.CreateScale(0.05f, 0.05f, 0.05f);
+			worldMatrix *= Matrix.CreateScale(0.005f, 0.005f, 0.005f);
 
-			worldMatrix *= Matrix.CreateRotationY(rotation.Y);
-			worldMatrix *= Matrix.CreateRotationX(MathHelper.Pi - rotation.X);
+            worldMatrix *= Matrix.CreateTranslation(Vector3.Right * -0.8f);
+
+            worldMatrix *= Matrix.CreateRotationX(rotation.X);
+            worldMatrix *= Matrix.CreateRotationY(-rotation.Y + MathHelper.Pi);            
 
 			worldMatrix *= Matrix.CreateTranslation(position);
-			worldMatrix *= Matrix.CreateTranslation(Vector3.Up * 8.0f);
-			worldMatrix *= Matrix.CreateTranslation(forward * 4.0f);
+			worldMatrix *= Matrix.CreateTranslation(Vector3.Up * 11.5f);
+			worldMatrix *= Matrix.CreateTranslation(forward * -0.5f);
 
 			Matrix[] transforms = new Matrix[m_model.Bones.Count];
 			m_model.CopyAbsoluteBoneTransformsTo(transforms);
 			foreach(ModelMesh mesh in m_model.Meshes) {
 				foreach(BasicEffect effect in mesh.Effects) {
 					effect.EnableDefaultLighting();
+                    effect.DirectionalLight1.DiffuseColor = new Vector3(0.5f, 0.6f, 0.7f);
 					effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
 					effect.View = view;
 					effect.Projection = projection;

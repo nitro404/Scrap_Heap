@@ -21,9 +21,9 @@ namespace SproketEngine {
 		}
 
 		public void loadContent(ContentManager content) {
-			m_models.Add(content.Load<Model>("Models\\Robot1"));
-			m_models.Add(content.Load<Model>("Models\\Robot2"));
-//			m_models.Add(content.Load<Model>("Models\\Robot3"));
+			m_models.Add(content.Load<Model>("Models\\Enemies\\Robo1"));
+            m_models.Add(content.Load<Model>("Models\\Enemies\\Robo2"));
+            m_models.Add(content.Load<Model>("Models\\Enemies\\Robo3"));
 		}
 		
 		public void initialize(Q3BSPLevel level) {
@@ -51,7 +51,7 @@ namespace SproketEngine {
 					m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 6, 0), Vector3.Zero, m_models[1]));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot3", StringComparison.OrdinalIgnoreCase)) {
-//					m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 6, 0), Vector3.Zero, m_models[2]));
+					m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 6, 0), Vector3.Zero, m_models[2]));
 				}
 			}
 		}

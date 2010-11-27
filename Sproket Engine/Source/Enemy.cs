@@ -38,6 +38,11 @@ namespace SproketEngine {
 			get { return m_rotation; }
 		}
 
+        public bool modelLoaded()
+        {
+            return (m_model != null);
+        }
+
 		public int health {
 			get { return m_health; }
 		}
@@ -45,13 +50,14 @@ namespace SproketEngine {
         public void draw(Matrix view, Matrix projection)
         {
             //TODO: Rotation
-            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * Matrix.CreateTranslation(position);
+            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * Matrix.CreateTranslation(m_position);
 
             Matrix[] transforms = new Matrix[m_model.Bones.Count];
             m_model.CopyAbsoluteBoneTransformsTo(transforms);
             foreach(ModelMesh mesh in m_model.Meshes) {
                 foreach(BasicEffect effect in mesh.Effects) {
                     effect.EnableDefaultLighting();
+                    effect.DirectionalLight1.DiffuseColor = new Vector3(0.5f, 0.6f, 0.7f);
                     effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
                     effect.View = view;
                     effect.Projection = projection;

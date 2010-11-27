@@ -58,7 +58,7 @@
     </Compile>
     <None Include="Maps\core.bsp">
       <Name>core</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Maps\test.bsp">
       <Name>test</Name>
@@ -69,23 +69,39 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
-    <Compile Include="Models\BasicRobo.fbx">
-      <Name>BasicRobo</Name>
+    <Compile Include="Models\Enemies\Robo1.fbx">
+      <Name>Robo1</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Models\Robot1.fbx">
-      <Name>Robot1</Name>
+    <Compile Include="Models\Enemies\Robo2.fbx">
+      <Name>Robo2</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Models\Robot2.fbx">
-      <Name>Robot2</Name>
+    <Compile Include="Models\Enemies\Robo3.fbx">
+      <Name>Robo3</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Models\Gun1.fbx">
-      <Name>Gun1</Name>
+    <Compile Include="Models\Weapons\Pistol.fbx">
+      <Name>Pistol</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Weapons\ShrapCan.fbx">
+      <Name>ShrapCan</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Weapons\GaussGun.fbx">
+      <Name>GaussGun</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Weapons\SlugThrower.fbx">
+      <Name>SlugThrower</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
@@ -93,6 +109,11 @@
       <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Shaders\PostFx.fx">
+      <Name>PostFx</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <Compile Include="Shaders\Blur.fx">
       <Name>Blur</Name>
       <Importer>EffectImporter</Importer>
