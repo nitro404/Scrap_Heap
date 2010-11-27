@@ -38,9 +38,8 @@ namespace SproketEngine {
 			get { return m_rotation; }
 		}
 
-        public bool modelLoaded()
-        {
-            return (m_model != null);
+        public bool modelLoaded() {
+            return m_model != null;
         }
 
 		public int health {

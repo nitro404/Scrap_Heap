@@ -142,6 +142,14 @@ namespace SproketEngine {
 			m_gravity = Vector3.Zero;
 		}
 
+		public void jump() {
+
+		}
+
+		public bool selectWeapon(int weaponNumber) {
+			return m_weapons.selectWeapon(weaponNumber);
+		}
+
 		public void reset() {
 			m_moving = false;
 			position = Vector3.Zero;

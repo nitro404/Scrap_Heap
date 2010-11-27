@@ -27,8 +27,10 @@ namespace SproketEngine {
 			m_console = console;
 		}
 
-		public void execute(string cmd) {
-			if(cmd == null) { return; }
+		public void execute(string command) {
+			if(command == null) { return; }
+			string cmd = command.Trim();
+
 			if(matchCommand(cmd, "quit") || matchCommand(cmd, "exit")) { m_game.Exit(); }
 			else if(matchCommand(cmd, "clear") || matchCommand(cmd, "cls")) { m_console.clear(); }
 			else if(matchCommand(cmd, "echo")) { m_console.writeLine(getStringValue(cmd)); }
@@ -93,10 +95,15 @@ namespace SproketEngine {
 				m_controlSystem.removeAllKeyBinds();
 				m_console.writeLine("Successfully unbound all keys");
 			}
-			else if(matchCommand(cmd, "moveforward")) { m_player.moveForward(); }
-			else if(matchCommand(cmd, "movebackward")) { m_player.moveBackward(); }
-			else if(matchCommand(cmd, "moveleft")) { m_player.moveLeft(); }
-			else if(matchCommand(cmd, "moveright")) { m_player.moveRight(); }
+			else if(matchCommand(cmd, "+moveforward")) { m_player.moveForward(); }
+			else if(matchCommand(cmd, "+movebackward")) { m_player.moveBackward(); }
+			else if(matchCommand(cmd, "+moveleft")) { m_player.moveLeft(); }
+			else if(matchCommand(cmd, "+moveright")) { m_player.moveRight(); }
+			else if(matchCommand(cmd, "+jump")) { m_player.jump(); }
+			else if(matchCommand(cmd, "weapon1")) { m_player.selectWeapon(0); }
+			else if(matchCommand(cmd, "weapon2")) { m_player.selectWeapon(1); }
+			else if(matchCommand(cmd, "weapon3")) { m_player.selectWeapon(2); }
+			else if(matchCommand(cmd, "weapon4")) { m_player.selectWeapon(3); }
 			else { m_console.writeLine("Unknown command: " + cmd); }
 		}
 

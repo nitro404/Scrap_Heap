@@ -35,7 +35,6 @@ namespace SproketEngine {
 		RenderTarget2D buffer;
 		Effect blur;
         Effect post;
-        EffectParameter postTime;
 
 		bool fullScreenKeyPressed = false;
 
@@ -74,11 +73,6 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
-            //Initialize postprocessor
-            post = Content.Load<Effect>("Shaders\\PostFx");
-            postTime = post.Parameters["time"];
-            postTime.SetValue(0.1f);
-
 			buffer = new RenderTarget2D(graphics.GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 1, GraphicsDevice.DisplayMode.Format);
 
 			player.initialize(settings);
@@ -114,7 +108,9 @@ namespace SproketEngine {
 
 			entitySystem.loadContent(Content);
 
+			// load shaders
 			blur = Content.Load<Effect>("Shaders\\Blur");
+			post = Content.Load<Effect>("Shaders\\PostFx");
 		}
 
 		/// <summary>
@@ -236,14 +232,11 @@ namespace SproketEngine {
 			graphics.GraphicsDevice.SetRenderTarget(0, null);
 
             // blur game screen if menu is open
-            if (menu.active)
-            {
+            if (menu.active) {
                 blur.Begin();
                 spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
-                foreach (EffectTechnique t in blur.Techniques)
-                {
-                    foreach (EffectPass p in t.Passes)
-                    {
+                foreach (EffectTechnique t in blur.Techniques) {
+                    foreach (EffectPass p in t.Passes) {
                         p.Begin();
                         spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
                         p.End();
@@ -252,14 +245,11 @@ namespace SproketEngine {
                 spriteBatch.End();
                 blur.End();
             }
-            else
-            {
+            else {
                 post.Begin();
                 spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
-                foreach (EffectTechnique t in post.Techniques)
-                {
-                    foreach (EffectPass p in t.Passes)
-                    {
+                foreach (EffectTechnique t in post.Techniques) {
+                    foreach (EffectPass p in t.Passes) {
                         p.Begin();
                         spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
                         p.End();
