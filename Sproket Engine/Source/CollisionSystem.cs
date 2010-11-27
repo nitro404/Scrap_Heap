@@ -41,14 +41,18 @@ namespace SproketEngine {
 			Vector3 point = collision.collisionPoint;
 
 			if (collision.collisionPoint != collision.endPosition) {
-				Vector3 offset = m_player.maxClimb;
+				Vector3 offset = new Vector3(0, 0.5f, 0);
 				Vector3 start = collision.startPosition + offset;
 				Vector3 end = collision.endPosition + offset;
 
 				Q3BSPCollisionData slopetest = m_level.TraceBox(start, end, m_player.minPoint, m_player.maxPoint);
 
 				if (slopetest.collisionPoint != collision.collisionPoint + offset) {
-					point = slopetest.collisionPoint;
+					float opp = offset.Length();
+					float adj = (end - start).Length();
+					float theta = MathHelper.ToDegrees((float)Math.Atan(opp/adj));
+					if(theta < m_player.maxClimb)
+						point = slopetest.collisionPoint;
 				}
 			}
 

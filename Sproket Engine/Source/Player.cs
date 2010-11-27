@@ -25,7 +25,7 @@ namespace SproketEngine {
 		private Vector3 m_forward;
 		private Vector3 m_left;
 
-		private Vector3 m_maxClimb = new Vector3(0, 0.5f, 0);
+		private float m_maxClimb = 45;	//Maximum angle player can climb
 
 		private Vector3 m_dimensions = new Vector3(4, 14, 4);
 		private Vector3 m_minPoint;
@@ -140,7 +140,7 @@ namespace SproketEngine {
 			get { return m_health; }
 		}
 
-		public Vector3 maxClimb {
+		public float maxClimb {
 			get { return m_maxClimb; }
 		}
 
