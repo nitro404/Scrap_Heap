@@ -25,6 +25,8 @@ namespace SproketEngine {
 		private Vector3 m_forward;
 		private Vector3 m_left;
 
+		private Vector3 m_maxClimb = new Vector3(0, 0.5f, 0);
+
 		private Vector3 m_dimensions = new Vector3(4, 14, 4);
 		private Vector3 m_minPoint;
 		private Vector3 m_maxPoint;
@@ -136,6 +138,10 @@ namespace SproketEngine {
 
 		public int health {
 			get { return m_health; }
+		}
+
+		public Vector3 maxClimb {
+			get { return m_maxClimb; }
 		}
 
 		public void resetGravity() {

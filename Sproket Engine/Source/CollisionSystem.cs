@@ -40,6 +40,18 @@ namespace SproketEngine {
 			Q3BSPCollisionData collision = m_level.TraceBox(m_player.position, m_player.newPosition, m_player.minPoint, m_player.maxPoint);
 			Vector3 point = collision.collisionPoint;
 
+			if (collision.collisionPoint != collision.endPosition) {
+				Vector3 offset = m_player.maxClimb;
+				Vector3 start = collision.startPosition + offset;
+				Vector3 end = collision.endPosition + offset;
+
+				Q3BSPCollisionData slopetest = m_level.TraceBox(start, end, m_player.minPoint, m_player.maxPoint);
+
+				if (slopetest.collisionPoint != collision.collisionPoint + offset) {
+					point = slopetest.collisionPoint;
+				}
+			}
+
             Vector3 newPosition = point - new Vector3(0, 1, 0);
 			collision = m_level.TraceBox(point, newPosition, m_player.minPoint, m_player.maxPoint);
             m_player.position = collision.collisionPoint;
