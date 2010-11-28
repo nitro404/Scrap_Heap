@@ -17,6 +17,7 @@ namespace SproketEngine {
 		private string m_name;
 
 		private bool m_moving;
+		private bool m_jumping;
 		private Vector3 m_position;
 		private Vector3 m_newPosition;
 		private Vector3 m_velocity;
@@ -26,8 +27,9 @@ namespace SproketEngine {
 		private Vector3 m_left;
 
 		private float m_maxClimb = 45;	//Maximum angle player can climb
+		private float m_jumpStrength = 125;
 
-		private Vector3 m_dimensions = new Vector3(4, 14, 4);
+		private Vector3 m_dimensions = new Vector3(4, 10, 4);
 		private Vector3 m_minPoint;
 		private Vector3 m_maxPoint;
 
@@ -144,11 +146,20 @@ namespace SproketEngine {
 			get { return m_maxClimb; }
 		}
 
+		public bool isJumping {
+			get { return m_jumping; }
+		}
+
 		public void resetGravity() {
 			m_gravity = Vector3.Zero;
+			m_jumping = false;
 		}
 
 		public void jump() {
+			if (!m_jumping) {
+				m_gravity += Vector3.Up * m_jumpStrength;
+			}
+			m_jumping = true;
 
 		}
 
@@ -188,11 +199,15 @@ namespace SproketEngine {
 			}
 
 			// set new position (for use in collision system)
-			m_newPosition = m_position + (m_velocity * 7.0f * (float) gameTime.ElapsedGameTime.TotalSeconds);
+			m_newPosition = m_position + (m_velocity * m_acceleration * (float) gameTime.ElapsedGameTime.TotalSeconds);
 
+
+		}
+
+		public void updateGravity(GameTime gameTime) {
 			// compute gravity
-			m_gravity.Y += GameConstants.GRAVITY * m_acceleration * (float) gameTime.ElapsedGameTime.TotalSeconds;
-
+			m_gravity.Y -= GameConstants.GRAVITY * (float) gameTime.ElapsedGameTime.TotalSeconds;
+			m_newPosition = m_position + (m_gravity * (float) gameTime.ElapsedGameTime.TotalSeconds);
 		}
 
 		public void moveForward() {

@@ -7,7 +7,8 @@ namespace SproketEngine {
 
 	class GameConstants {
 
-		public static float GRAVITY = 9.81f;
+		//Faked ... for realism
+		public static float GRAVITY = 30f * 7;
 
 	}
 

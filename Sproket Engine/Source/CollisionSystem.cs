@@ -55,10 +55,24 @@ namespace SproketEngine {
 						point = slopetest.collisionPoint;
 				}
 			}
+			m_player.position = point;
 
-            Vector3 newPosition = point - new Vector3(0, 1, 0);
-			collision = m_level.TraceBox(point, newPosition, m_player.minPoint, m_player.maxPoint);
-            m_player.position = collision.collisionPoint;
+			//Gravity
+			//Check if on floor
+			collision = m_level.TraceBox(m_player.position, m_player.position - new Vector3 (0, 1, 0), m_player.minPoint, m_player.maxPoint);
+			if (collision.collisionPoint == collision.endPosition || m_player.isJumping) {
+				//Not on floor so check gravity
+				m_player.updateGravity(gameTime);
+				collision = m_level.TraceBox(m_player.position, m_player.newPosition, m_player.minPoint, m_player.maxPoint);
+				if (collision.collisionPoint != collision.endPosition) {
+					m_player.resetGravity();
+				}
+				m_player.position = collision.collisionPoint;
+			}
+			else {
+				//On floor don't do gravity, but reset it
+				m_player.resetGravity();
+			}
 		}
 
 	}
