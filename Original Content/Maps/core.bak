@@ -3138,7 +3138,7 @@
 // entity 7
 {
 "classname" "light"
-"origin" "896 128 256"
+"origin" "1344 0 256"
 "_color" "0.888611 0.902419 1"
 }
 // entity 8
@@ -3318,7 +3318,7 @@
 // entity 37
 {
 "classname" "light"
-"origin" "0 448 352"
+"origin" "-448 -448 352"
 "_color" "0.888611 0.902419 1"
 }
 // entity 38
@@ -3427,35 +3427,5 @@
 {
 "classname" "light"
 "origin" "-992 128 256"
-"_color" "0.888611 0.902419 1"
-}
-// entity 56
-{
-"classname" "light"
-"origin" "-448 -448 352"
-"_color" "0.888611 0.902419 1"
-}
-// entity 57
-{
-"classname" "light"
-"origin" "0 -448 352"
-"_color" "0.888611 0.902419 1"
-}
-// entity 58
-{
-"classname" "light"
-"origin" "1408 128 256"
-"_color" "0.888611 0.902419 1"
-}
-// entity 59
-{
-"classname" "light"
-"origin" "1408 -128 256"
-"_color" "0.888611 0.902419 1"
-}
-// entity 60
-{
-"classname" "light"
-"origin" "896 -128 256"
 "_color" "0.888611 0.902419 1"
 }
