@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using XNAQ3Lib.MD5;
 using XNAQ3Lib.Q3BSP;
+using KiloWatt.Base.Graphics;
+using KiloWatt.Base.Animation;
 
 namespace SproketEngine {
 
