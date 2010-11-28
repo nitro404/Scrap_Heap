@@ -59,7 +59,7 @@
   <ItemGroup>
     <Reference Include="KiloWatt.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\KiloWatt.Base.dll</HintPath>
+      <HintPath>lib\KiloWatt.Base.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
       <Private>False</Private>
@@ -89,11 +89,11 @@
     </Reference>
     <Reference Include="XNAQ3Lib.MD5, Version=0.9.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\XNAQ3Lib.MD5.dll</HintPath>
+      <HintPath>lib\XNAQ3Lib.MD5.dll</HintPath>
     </Reference>
     <Reference Include="XNAQ3Lib.Q3BSP, Version=0.4.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\XNAQ3Lib.Q3BSP.dll</HintPath>
+      <HintPath>lib\XNAQ3Lib.Q3BSP.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
