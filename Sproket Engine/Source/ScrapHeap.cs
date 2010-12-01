@@ -222,7 +222,6 @@ namespace SproketEngine {
 
 			screenManager.update(gameTime);
             audioEngine.Update();
-            //soundBank.PlayCue("Pistol");
 
 			base.Update(gameTime);
 		}
@@ -276,7 +275,6 @@ namespace SproketEngine {
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 
 			base.Draw(gameTime);
-
 		}
 
 		protected override void OnExiting(object sender, EventArgs args) {
