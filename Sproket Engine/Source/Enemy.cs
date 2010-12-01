@@ -49,7 +49,9 @@ namespace SproketEngine {
         public void draw(Matrix view, Matrix projection)
         {
             //TODO: Rotation
-            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * Matrix.CreateTranslation(m_position);
+            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * 
+                Matrix.CreateRotationY(m_rotation.Y) *
+                Matrix.CreateTranslation(m_position);
 
             Matrix[] transforms = new Matrix[m_model.Bones.Count];
             m_model.CopyAbsoluteBoneTransformsTo(transforms);
