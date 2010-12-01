@@ -215,7 +215,10 @@ namespace SproketEngine {
                 m_velocity -= new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
             }
             else {
-                m_velocity -= new Vector3(m_forward.X, 0, m_forward.Z);
+                Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
+                straight.Normalize();
+                straight *= m_forward.Length();
+                m_velocity -= straight;
             }
 			m_moving = true;
 		}
@@ -225,7 +228,10 @@ namespace SproketEngine {
                 m_velocity += new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
             }
             else {
-                m_velocity += new Vector3(m_forward.X, 0, m_forward.Z);
+                Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
+                straight.Normalize();
+                straight *= m_forward.Length();
+                m_velocity += straight;
             }
 			m_moving = true;
 		}
@@ -235,7 +241,10 @@ namespace SproketEngine {
                 m_velocity -= new Vector3(m_left.X, m_left.Y, m_left.Z);
             }
             else {
-                m_velocity -= new Vector3(m_left.X, 0, m_left.Z);
+                Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
+                straight.Normalize();
+                straight *= m_left.Length();
+                m_velocity -= straight;
             }
 			m_moving = true;
 		}
@@ -245,7 +254,10 @@ namespace SproketEngine {
                 m_velocity += new Vector3(m_left.X, m_left.Y, m_left.Z);
             }
             else {
-                m_velocity += new Vector3(m_left.X, 0, m_left.Z);
+                Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
+                straight.Normalize();
+                straight *= m_left.Length();
+                m_velocity += straight;
             }
 			m_moving = true;
 		}
