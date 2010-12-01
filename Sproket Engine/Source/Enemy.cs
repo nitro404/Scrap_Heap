@@ -18,16 +18,19 @@ namespace SproketEngine {
 		private Vector3 m_rotation;
 		private Model m_model;
 
+        private float m_scale;
+
 		private int m_health;
 		private int m_maxHealth = 100;
 
-		public Enemy(Vector3 position, Vector3 rotation, Model model) {
+		public Enemy(Vector3 position, Vector3 rotation, Model model, float scale) {
 			m_id = m_idCounter++;
 			m_health = m_maxHealth;
 
 			m_position = position;
 			m_rotation = rotation;
 			m_model = model;
+            m_scale = scale;
 		}
 
 		public Vector3 position {
@@ -49,7 +52,7 @@ namespace SproketEngine {
         public void draw(Matrix view, Matrix projection)
         {
             //TODO: Rotation
-            Matrix worldMatrix = Matrix.CreateScale(0.05f, 0.05f, 0.05f) * 
+            Matrix worldMatrix = Matrix.CreateScale(m_scale, m_scale, m_scale) * 
                 Matrix.CreateRotationY(m_rotation.Y) *
                 Matrix.CreateTranslation(m_position);
 

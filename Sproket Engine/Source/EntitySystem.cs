@@ -53,13 +53,13 @@ namespace SproketEngine {
                 }
 
 				if(entity.GetClassName().Equals("enemy_robot1", StringComparison.OrdinalIgnoreCase)) {
-					m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 6, 0), new Vector3(0, rotation, 0), m_models[0]));
+					m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), m_models[0], 0.025f));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot2", StringComparison.OrdinalIgnoreCase)) {
-                    m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 6, 0), new Vector3(0, rotation, 0), m_models[1]));
+                    m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), m_models[1], 0.05f));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot3", StringComparison.OrdinalIgnoreCase)) {
-                    m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) + new Vector3(0, 0, 0), new Vector3(0, rotation, 0), m_models[2]));
+                    m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), m_models[2], 0.03f));
 				}
 			}
 		}
