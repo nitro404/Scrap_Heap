@@ -108,7 +108,9 @@
     <Compile Include="Source\Entity.cs" />
     <Compile Include="Source\Key.cs" />
     <Compile Include="Source\Menu\SimpleMenuItem.cs" />
-    <Compile Include="Source\Menu\SinglePlayerMenu.cs" />
+    <Compile Include="Source\Menu\SinglePlayerMenu.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Source\Menu\MainMenu.cs" />
     <Compile Include="Source\Menu\MenuItem.cs" />
     <Compile Include="Source\Menu\SubMenu.cs" />

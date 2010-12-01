@@ -104,6 +104,7 @@ namespace SproketEngine {
 			else if(matchCommand(cmd, "weapon2")) { m_player.selectWeapon(1); }
 			else if(matchCommand(cmd, "weapon3")) { m_player.selectWeapon(2); }
 			else if(matchCommand(cmd, "weapon4")) { m_player.selectWeapon(3); }
+            else if (matchCommand(cmd, "weapon5")) { m_player.selectWeapon(4); }
 			else { m_console.writeLine("Unknown command: " + cmd); }
 		}
 

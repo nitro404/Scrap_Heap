@@ -38,6 +38,10 @@ namespace SproketEngine {
 		Effect blur;
         Effect post;
 
+        AudioEngine audioEngine;
+        WaveBank waveBank;
+        SoundBank soundBank;
+
 		bool fullScreenKeyPressed = false;
 
 		public ScrapHeap() {
@@ -113,6 +117,11 @@ namespace SproketEngine {
 			// load shaders
 			blur = Content.Load<Effect>("Shaders\\Blur");
 			post = Content.Load<Effect>("Shaders\\PostFx");
+
+            //Load sound information
+            audioEngine = new AudioEngine("Content\\Sounds\\ScrapHeap.xgs");
+            waveBank = new WaveBank(audioEngine, "Content\\Sounds\\waveBank.xwb");
+            soundBank = new SoundBank(audioEngine, "Content\\Sounds\\soundBank.xsb");
 		}
 
 		/// <summary>
@@ -207,10 +216,13 @@ namespace SproketEngine {
 
 				if(!alternateInput) {
 					screenManager.handleInput(gameTime);
+
 				}
 			}
 
 			screenManager.update(gameTime);
+            audioEngine.Update();
+            //soundBank.PlayCue("Pistol");
 
 			base.Update(gameTime);
 		}
@@ -264,6 +276,7 @@ namespace SproketEngine {
 			screenManager.draw(spriteBatch, graphics.GraphicsDevice);
 
 			base.Draw(gameTime);
+
 		}
 
 		protected override void OnExiting(object sender, EventArgs args) {

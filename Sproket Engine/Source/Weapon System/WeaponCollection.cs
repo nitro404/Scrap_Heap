@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SproketEngine {
 
-	enum WeaponType { Pistol=0, ShrapnelCannon=1, GaussGun=2, SlugThrower=3, Experimental, Sniper, Electricity, Explosive, Special }
+    enum WeaponType { Pistol = 0, ShrapnelCannon = 1, GaussGun = 2, SlugThrower = 3, MachineRifle = 4, Experimental, Sniper, Electricity, Explosive, Special }
 
 	class WeaponCollection {
 
@@ -27,11 +27,13 @@ namespace SproketEngine {
             m_models.Add(content.Load<Model>("Models\\Weapons\\ShrapCan"));
             m_models.Add(content.Load<Model>("Models\\Weapons\\GaussGun"));
             m_models.Add(content.Load<Model>("Models\\Weapons\\SlugThrower"));
+            m_models.Add(content.Load<Model>("Models\\Weapons\\MachineRifle"));
 
 			m_weapons.Add(new Weapon(m_models[0], new Ammunition(AmmunitionType._9mm)));
             m_weapons.Add(new Weapon(m_models[1], new Ammunition(AmmunitionType.FragCharge)));
             m_weapons.Add(new Weapon(m_models[2], new Ammunition(AmmunitionType.Bolt)));
             m_weapons.Add(new Weapon(m_models[3], new Ammunition(AmmunitionType.Slug)));
+            m_weapons.Add(new Weapon(m_models[4], new Ammunition(AmmunitionType._7_62x39mm)));
 		}
 
 		public void initialize() {
@@ -39,7 +41,7 @@ namespace SproketEngine {
 		}
 
 		public bool selectWeapon(int weaponNumber) {
-			if(weaponNumber >= 0 && weaponNumber <= 3) {
+			if(weaponNumber >= 0 && weaponNumber <= 4) {
 				m_currentWeapon = (WeaponType) weaponNumber;
 				return true;
 			}

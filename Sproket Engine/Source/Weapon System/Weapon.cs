@@ -36,7 +36,8 @@ namespace SproketEngine {
 			foreach(ModelMesh mesh in m_model.Meshes) {
 				foreach(BasicEffect effect in mesh.Effects) {
 					effect.EnableDefaultLighting();
-                    effect.DirectionalLight1.DiffuseColor = new Vector3(0.5f, 0.6f, 0.7f);
+                    //effect.DirectionalLight1.DiffuseColor = new Vector3(0.5f, 0.6f, 0.7f); //Core Light
+                    effect.DirectionalLight1.DiffuseColor = new Vector3(0.9f, 0.8f, 0.3f); //Foundry Light
 					effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
 					effect.View = view;
 					effect.Projection = projection;
