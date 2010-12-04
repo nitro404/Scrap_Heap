@@ -39,6 +39,12 @@ namespace SproketEngine {
 			loadEntities();
 		}
 
+		public void setLighting(Vector3 lighting) {
+			for(int i=0;i<m_enemies.Count();i++) {
+				m_enemies[i].lighting = lighting;
+			}
+		}
+
 		private void loadEntities() {
 			if(m_level == null) { return; }
 

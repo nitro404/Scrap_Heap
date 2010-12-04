@@ -26,10 +26,10 @@ namespace SproketEngine {
 		private Vector3 m_forward;
 		private Vector3 m_left;
 
-		private float m_maxClimb = 45;	//Maximum angle player can climb
+		private float m_maxClimb = 45; // maximum angle player can climb
 		private float m_jumpStrength = 75;
 
-		private Vector3 m_dimensions = new Vector3(4, 10, 4);
+		private Vector3 m_dimensions = new Vector3(4, 14, 4);
 		private Vector3 m_minPoint;
 		private Vector3 m_maxPoint;
 
@@ -164,6 +164,10 @@ namespace SproketEngine {
 		public void resetGravity() {
 			m_gravity = Vector3.Zero;
 			m_jumping = false;
+		}
+
+		public void setLighting(Vector3 lighting) {
+			m_weapons.setLighting(lighting);
 		}
 
 		public void jump() {

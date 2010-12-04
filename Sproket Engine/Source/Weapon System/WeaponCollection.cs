@@ -40,8 +40,14 @@ namespace SproketEngine {
 			
 		}
 
+		public void setLighting(Vector3 lighting) {
+			for(int i=0;i<m_weapons.Count();i++) {
+				m_weapons[i].lighting = lighting;
+			}
+		}
+
 		public bool selectWeapon(int weaponNumber) {
-			if(weaponNumber >= 0 && weaponNumber <= 4) {
+			if(weaponNumber >= 0 && weaponNumber < m_weapons.Count()) {
 				m_currentWeapon = (WeaponType) weaponNumber;
 				return true;
 			}

@@ -168,11 +168,51 @@ namespace SproketEngine {
 				Vector3 position = Q3BSPLevel.GetXNAPosition(spawn);
 
 				// offset spawn position to bottom-center of entity
-				// subtract 0.001 to prevent falling through level
-				position.Y -= 5.999f;
+				position.Y -= 6.0f;
 
 				player.position = position;
 			}
+
+			// add 0.001 to prevent falling through level
+			player.position += new Vector3(0, 0.001f, 0);
+			
+			// set model lighting from arbitrary light from loaded map
+			Vector3 lighting = Vector3.One;
+			if(levelName.Equals("core", StringComparison.OrdinalIgnoreCase) ||
+			   levelName.Equals("core.bsp", StringComparison.OrdinalIgnoreCase)) {
+				lighting = new Vector3(0.5f, 0.6f, 0.7f);
+			}
+			else if(levelName.Equals("foundry", StringComparison.OrdinalIgnoreCase) ||
+					levelName.Equals("foundry.bsp", StringComparison.OrdinalIgnoreCase)) {
+				lighting = new Vector3(0.9f, 0.8f, 0.3f);
+			}
+			player.setLighting(lighting);
+			entitySystem.setLighting(lighting);
+
+			/*
+			Q3BSPEntity lightEntity = level.GetEntity("worldspawn");
+			
+			if(lightEntity != null) {
+				try {
+					string data = (string) lightEntity.Entries["_color"];
+					if(data == null) { data = (string) lightEntity.Entries["color"]; }
+					if(data != null) {
+						string[] values = data.Split(' ');
+						if(values.Length == 3) {
+							Vector3 lighting = Vector3.One;
+
+							lighting.X = int.Parse(values[0]);
+							lighting.Y = int.Parse(values[1]);
+							lighting.Z = int.Parse(values[2]);
+
+							player.setLighting(lighting);
+							entitySystem.setLighting(lighting);
+						}
+					}
+				}
+				catch(Exception) { }
+			}
+			*/
 
 			return true;
 		}
@@ -248,11 +288,11 @@ namespace SproketEngine {
 			graphics.GraphicsDevice.SetRenderTarget(0, null);
 
             // blur game screen if menu is open
-            if (menu.active) {
+            if(menu.active) {
                 blur.Begin();
                 spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
-                foreach (EffectTechnique t in blur.Techniques) {
-                    foreach (EffectPass p in t.Passes) {
+                foreach(EffectTechnique t in blur.Techniques) {
+                    foreach(EffectPass p in t.Passes) {
                         p.Begin();
                         spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
                         p.End();
@@ -264,8 +304,8 @@ namespace SproketEngine {
             else {
                 post.Begin();
                 spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);
-                foreach (EffectTechnique t in post.Techniques) {
-                    foreach (EffectPass p in t.Passes) {
+                foreach(EffectTechnique t in post.Techniques) {
+                    foreach(EffectPass p in t.Passes) {
                         p.Begin();
                         spriteBatch.Draw(buffer.GetTexture(), Vector2.Zero, Color.White);
                         p.End();

@@ -11,11 +11,17 @@ namespace SproketEngine {
 
 		private Ammunition m_ammunition;
 
+		private Vector3 m_lighting = Vector3.One;
 		private Model m_model;
 
 		public Weapon(Model model, Ammunition ammunition) {
 			m_model = model;
 			m_ammunition = ammunition;
+		}
+
+		public Vector3 lighting {
+			get { return m_lighting; }
+			set { m_lighting = value; }
 		}
 
 		public void draw(Vector3 position, Vector3 forward, Vector3 rotation, Matrix view, Matrix projection) {
@@ -36,8 +42,7 @@ namespace SproketEngine {
 			foreach(ModelMesh mesh in m_model.Meshes) {
 				foreach(BasicEffect effect in mesh.Effects) {
 					effect.EnableDefaultLighting();
-                    //effect.DirectionalLight1.DiffuseColor = new Vector3(0.5f, 0.6f, 0.7f); //Core Light
-                    effect.DirectionalLight1.DiffuseColor = new Vector3(0.9f, 0.8f, 0.3f); //Foundry Light
+					effect.DirectionalLight1.DiffuseColor = m_lighting;
 					effect.World = transforms[mesh.ParentBone.Index] * worldMatrix;
 					effect.View = view;
 					effect.Projection = projection;

@@ -385,8 +385,8 @@ namespace KiloWatt.Base.Animation
       //  shader set-up (world transform, texture, etc).
       foreach (Chunk ch in chunks_)
       {
-        if ((ch.Bitmask & mask) == 0)
-          continue;
+//        if ((ch.Bitmask & mask) == 0)
+//          continue;
         if (asDeferred)
         {
           //  If I'm called back to draw deferred pieces, don't draw if this 
