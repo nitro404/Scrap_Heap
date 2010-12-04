@@ -32,6 +32,7 @@ namespace SproketEngine {
 		SpriteBatch spriteBatch;
 		Player player;
 		Q3BSPLevel level;
+		SpriteSheetCollection spriteSheets;
 		EntitySystem entitySystem;
 		CollisionSystem collisionSystem;
 		RenderTarget2D buffer;
@@ -106,11 +107,13 @@ namespace SproketEngine {
 		protected override void LoadContent() {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
+			spriteSheets = SpriteSheetCollection.parseFrom(Content.RootDirectory + "/" + settings.spriteSheetFileName, Content);
+
 			menu.loadContent(Content);
 
 			console.loadContent(Content);
 
-			player.loadContent(Content);
+			player.loadContent(Content, spriteSheets.getSpriteSheet("Crosshairs"));
 
 			entitySystem.loadContent(Content);
 
@@ -118,7 +121,7 @@ namespace SproketEngine {
 			blur = Content.Load<Effect>("Shaders\\Blur");
 			post = Content.Load<Effect>("Shaders\\PostFx");
 
-            //Load sound information
+            // load sound information
             audioEngine = new AudioEngine("Content\\Sounds\\ScrapHeap.xgs");
             waveBank = new WaveBank(audioEngine, "Content\\Sounds\\waveBank.xwb");
             soundBank = new SoundBank(audioEngine, "Content\\Sounds\\soundBank.xsb");
@@ -239,7 +242,7 @@ namespace SproketEngine {
 
 				entitySystem.draw(player.view, player.projection);
 
-				player.draw();
+				player.draw(spriteBatch);
 			}
 
 			graphics.GraphicsDevice.SetRenderTarget(0, null);

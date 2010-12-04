@@ -48,6 +48,9 @@ namespace SproketEngine {
 
 		private Camera m_camera;
 
+		private SpriteSheet m_crosshairSprites;
+		private Sprite m_crosshair = null;
+
 		private GameSettings m_settings;
 
 		public Player(string playerName, Vector3 position, Vector3 rotation, Model model) {
@@ -76,8 +79,12 @@ namespace SproketEngine {
 			m_camera = new Camera();
 		}
 
-		public void loadContent(ContentManager content) {
+		public void loadContent(ContentManager content, SpriteSheet crosshairSprites) {
 			m_weapons.loadContent(content);
+			m_crosshairSprites = crosshairSprites;
+			if(m_crosshairSprites != null) {
+				m_crosshair = crosshairSprites.getSprite("Crosshair 2");
+			}
 		}
 
 		public void initialize(GameSettings settings) {
@@ -128,6 +135,10 @@ namespace SproketEngine {
 
 		public Matrix projection {
 			get { return m_camera.projection; }
+		}
+
+		public Sprite crosshair {
+			get { return m_crosshair; }
 		}
 
 		public int id {
@@ -278,8 +289,14 @@ namespace SproketEngine {
 			m_moving = false;
 		}
 
-		public void draw() {
+		public void draw(SpriteBatch spriteBatch) {
 			m_weapons.draw(position, m_forward, rotation, view, projection);
+
+			if(m_crosshair != null) {
+				spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
+				m_crosshair.draw(spriteBatch, Vector2.One, 0, new Vector2(m_settings.screenWidth / 2, m_settings.screenHeight / 2), SpriteEffects.None);
+				spriteBatch.End();
+			}
 		}
 
 	}

@@ -9,11 +9,13 @@ namespace SproketEngine {
 	class GameSettings {
 
 		private static string m_defaultFileName = "settings.ini";
+		private static string m_defaultSpriteSheetFileName = "spritesheets.ini";
 
 		public int m_screenWidth;
 		public int m_screenHeight;
 		public bool m_fullScreen;
 		public bool m_clipping;
+		private string m_spriteSheetFileName;
 
 		private VariableSystem m_variables;
 
@@ -23,10 +25,15 @@ namespace SproketEngine {
 			screenHeight = 768;
 			fullScreen = false;
 			clipping = true;
+			m_spriteSheetFileName = m_defaultSpriteSheetFileName;
 		}
 
 		public static string defaultFileName {
 			get { return m_defaultFileName; }
+		}
+
+		public static string defaultSpriteSheetFileName {
+			get { return m_defaultSpriteSheetFileName; }
 		}
 
 		public int screenWidth {
@@ -47,6 +54,11 @@ namespace SproketEngine {
 		public bool clipping {
 			get { return m_clipping; }
 			set { m_clipping = value; }
+		}
+
+		public string spriteSheetFileName {
+			get { return m_spriteSheetFileName; }
+			set { if(value != null) { m_spriteSheetFileName = value; } }
 		}
 
 		public List<Variable> getControls() {
@@ -97,6 +109,7 @@ namespace SproketEngine {
 			try { screenWidth = int.Parse(m_variables.getValue("Screen Width", "Settings")); } catch(Exception) { }
 			try { screenHeight = int.Parse(m_variables.getValue("Screen Height", "Settings")); } catch(Exception) { }
 			try { fullScreen = bool.Parse(m_variables.getValue("Fullscreen", "Settings")); } catch(Exception) { }
+			spriteSheetFileName = m_variables.getValue("SpriteSheet File", "Paths");
 
 			return true;
 		}
@@ -106,6 +119,7 @@ namespace SproketEngine {
 			m_variables.setValue("Screen Width", m_screenWidth.ToString(), "Settings");
 			m_variables.setValue("Screen Height", m_screenHeight.ToString(), "Settings");
 			m_variables.setValue("Fullscreen", m_fullScreen.ToString().ToLower(), "Settings");
+			m_variables.setValue("SpriteSheet File", m_spriteSheetFileName, "Paths");
 
 			// group the variables by categories
 			m_variables.sort();
