@@ -22,14 +22,14 @@ namespace SproketEngine {
 			Matrix worldMatrix = Matrix.Identity;
 			worldMatrix *= Matrix.CreateScale(0.005f, 0.005f, 0.005f);
 
-            worldMatrix *= Matrix.CreateTranslation(Vector3.Right * -0.8f);
+            worldMatrix *= Matrix.CreateTranslation(Vector3.Right * -0.83f);
 
             worldMatrix *= Matrix.CreateRotationX(rotation.X);
             worldMatrix *= Matrix.CreateRotationY(-rotation.Y + MathHelper.Pi);            
 
 			worldMatrix *= Matrix.CreateTranslation(position);
-			worldMatrix *= Matrix.CreateTranslation(Vector3.Up * 11.5f);
-			worldMatrix *= Matrix.CreateTranslation(forward * -0.5f);
+			worldMatrix *= Matrix.CreateTranslation(Vector3.Up * 11.58f);
+			worldMatrix *= Matrix.CreateTranslation(forward * -0.28f);
 
 			Matrix[] transforms = new Matrix[m_model.Bones.Count];
 			m_model.CopyAbsoluteBoneTransformsTo(transforms);
