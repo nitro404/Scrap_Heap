@@ -176,7 +176,7 @@ namespace SproketEngine {
 			// add 0.001 to prevent falling through level
 			player.position += new Vector3(0, 0.001f, 0);
 			
-			// set model lighting from arbitrary light from loaded map
+			// set model lighting based on map lighting (temporarily hard-coded)
 			Vector3 lighting = Vector3.One;
 			if(levelName.Equals("core", StringComparison.OrdinalIgnoreCase) ||
 			   levelName.Equals("core.bsp", StringComparison.OrdinalIgnoreCase)) {
@@ -188,31 +188,6 @@ namespace SproketEngine {
 			}
 			player.setLighting(lighting);
 			entitySystem.setLighting(lighting);
-
-			/*
-			Q3BSPEntity lightEntity = level.GetEntity("worldspawn");
-			
-			if(lightEntity != null) {
-				try {
-					string data = (string) lightEntity.Entries["_color"];
-					if(data == null) { data = (string) lightEntity.Entries["color"]; }
-					if(data != null) {
-						string[] values = data.Split(' ');
-						if(values.Length == 3) {
-							Vector3 lighting = Vector3.One;
-
-							lighting.X = int.Parse(values[0]);
-							lighting.Y = int.Parse(values[1]);
-							lighting.Z = int.Parse(values[2]);
-
-							player.setLighting(lighting);
-							entitySystem.setLighting(lighting);
-						}
-					}
-				}
-				catch(Exception) { }
-			}
-			*/
 
 			return true;
 		}
