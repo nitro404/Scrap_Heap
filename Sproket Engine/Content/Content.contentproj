@@ -126,26 +126,26 @@
       <Name>spritesheets</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Barrel.tga">
+    <None Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Barrel.tga">
       <Name>SlugThrower_Barrel</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Butt.tga">
+    </None>
+    <None Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Butt.tga">
       <Name>SlugThrower_Butt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Grip.tga">
+    </None>
+    <None Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Grip.tga">
       <Name>SlugThrower_Grip</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Sight.tga">
+    </None>
+    <None Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Sight.tga">
       <Name>SlugThrower_Sight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
+    </None>
     <Compile Include="Sounds\ScrapHeap.xap">
       <Name>ScrapHeap</Name>
       <Importer>XactImporter</Importer>
