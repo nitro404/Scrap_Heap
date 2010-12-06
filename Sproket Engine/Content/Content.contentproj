@@ -62,11 +62,11 @@
     </Compile>
     <None Include="Maps\core.bsp">
       <Name>core</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Maps\Foundry.bsp">
       <Name>Foundry</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Maps\test.bsp">
       <Name>test</Name>
