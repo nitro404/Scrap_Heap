@@ -43,13 +43,28 @@ namespace SproketEngine {
 			m_maxClimb = maxClimbAngle;
 			m_jumpStrength = jumpStrength;
 
-
+			m_forward = Vector3.Forward;
+			m_left = Vector3.Left;
 			m_velocity = Vector3.Zero;
 			m_gravity = Vector3.Zero;
 			m_moving = false;
 			m_jumping = false;
+
 			
 		}
+
+		public void reset() {
+			m_moving = false;
+			m_jumping = false;
+			position = Vector3.Zero;
+			m_newPosition = m_position;
+			m_rotation = Vector3.Zero;
+			m_forward = Vector3.Forward;
+			m_left = Vector3.Left;
+			m_gravity = Vector3.Zero;
+			m_velocity = Vector3.Zero;
+		}
+
 
 		public Vector3 velocity {
 			get { return m_velocity; }
@@ -100,18 +115,10 @@ namespace SproketEngine {
 			m_jumping = true;
 		}
 
-		public void reset() {
-			m_moving = false;
-			position = Vector3.Zero;
-			m_newPosition = m_position;
-			m_rotation = Vector3.Zero;
-			m_forward = Vector3.Forward;
-			m_left = Vector3.Left;
-			m_gravity = Vector3.Zero;
-			m_velocity = Vector3.Zero;
-		}
 
 		public virtual void update(GameTime gameTime) {
+			if (!active)
+				return;
 
 			// compute acceleration vector
 			float acceleration = (m_moving) ? m_acceleration : m_deceleration;
@@ -142,42 +149,11 @@ namespace SproketEngine {
 		}
 
 		public override void handleCollision(Q3BSPLevel level, GameTime gameTime){
+			if (!active)
+				return;
+
 			Q3BSPCollisionData collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
-			Vector3 point = collision.collisionPoint;
-
-			if (collision.collisionPoint != collision.endPosition) {
-				Vector3 offset = new Vector3(0, 0.5f, 0);
-				Vector3 start = collision.startPosition + offset;
-				Vector3 end = collision.endPosition + offset;
-
-				Q3BSPCollisionData slopetest = level.TraceBox(start, end, minPoint, maxPoint);
-
-				if (slopetest.collisionPoint != collision.collisionPoint + offset) {
-					float opp = offset.Length();
-					float adj = (end - start).Length();
-					float theta = MathHelper.ToDegrees((float) Math.Atan(opp/adj));
-					if (theta < maxClimb)
-						point = slopetest.collisionPoint;
-				}
-			}
-			position = point;
-
-			//Gravity
-			//Check if on floor
-			collision = level.TraceBox(position, position - new Vector3(0, 1, 0), minPoint, maxPoint);
-			if (collision.collisionPoint == collision.endPosition || isJumping) {
-				//Not on floor so check gravity
-				updateGravity(gameTime);
-				collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
-				if (collision.collisionPoint != collision.endPosition) {
-					resetGravity();
-				}
-				position = collision.collisionPoint;
-			}
-			else {
-				//On floor don't do gravity, but reset it
-				resetGravity();
-			}
+			position = collision.collisionPoint;
 		}
 
 		public void moveForward() {

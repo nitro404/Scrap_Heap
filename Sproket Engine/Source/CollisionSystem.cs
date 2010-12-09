@@ -33,16 +33,20 @@ namespace SproketEngine {
 
 		public void update(GameTime gameTime) {
 
+			Entity player = m_entities.Find(entity => entity is Player);
 			//TODO: Handle all entity collisions
 			//Currently running handleCollision for every entity on the map kills the game
 			//which is obviously expected.
 			//Gotta figure something out here.
 			foreach (Entity entity in m_entities) {
 
-				//Hack to maintain player movement.
-				if (entity is Player)
-					entity.handleCollision(level, gameTime);
-				//entity.handleCollision(m_level, gameTime); //DANGER: Game Killer!
+				if (Vector3.Distance(player.position, entity.position) < 150.0f) {
+					entity.active = true;
+					entity.handleCollision(m_level, gameTime);
+				}
+				else {
+					entity.active = false;
+				}
 			}
 		}
 

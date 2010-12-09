@@ -27,6 +27,8 @@ namespace SproketEngine {
 
 		protected Vector3 m_lighting = Vector3.One;
 
+		protected bool m_active;
+
         public Entity(Vector3 position, Vector3 rotation, Model model, Vector3 dimensions) {
 			m_id = m_idCounter++;
 
@@ -58,6 +60,11 @@ namespace SproketEngine {
 		public Vector3 lighting {
 			get { return m_lighting; }
 			set { m_lighting = value; }
+		}
+
+		public bool active {
+			get { return m_active; }
+			set { m_active = value; }
 		}
 
 		public virtual void handleCollision(Q3BSPLevel level, GameTime gameTime) {
