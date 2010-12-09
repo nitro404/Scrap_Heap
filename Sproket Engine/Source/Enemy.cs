@@ -30,11 +30,6 @@ namespace SproketEngine {
 			m_model = model;
             m_scale = scale;
 		}
-		
-		public Vector3 lighting {
-			get { return m_lighting; }
-			set { m_lighting = value; }
-		}
 
         public bool modelLoaded() {
             return m_model != null;
@@ -44,7 +39,11 @@ namespace SproketEngine {
 			get { return m_health; }
 		}
 
-		public void draw(Matrix view, Matrix projection) {
+		public override void update(GameTime gameTime) {
+			moveForward();
+			base.update(gameTime);
+		}
+		public override void draw(Matrix view, Matrix projection) {
 			//TODO: Rotation
 			Matrix world = Matrix.CreateScale(m_scale, m_scale, m_scale) * 
                 Matrix.CreateRotationY(m_rotation.Y) *

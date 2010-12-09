@@ -111,7 +111,7 @@ namespace SproketEngine {
 			m_velocity = Vector3.Zero;
 		}
 
-		public void update(GameTime gameTime) {
+		public virtual void update(GameTime gameTime) {
 
 			// compute acceleration vector
 			float acceleration = (m_moving) ? m_acceleration : m_deceleration;
@@ -141,55 +141,74 @@ namespace SproketEngine {
 			m_newPosition = m_position + (m_gravity * (float) gameTime.ElapsedGameTime.TotalSeconds);
 		}
 
+		public override void handleCollision(Q3BSPLevel level, GameTime gameTime){
+			Q3BSPCollisionData collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
+			Vector3 point = collision.collisionPoint;
+
+			if (collision.collisionPoint != collision.endPosition) {
+				Vector3 offset = new Vector3(0, 0.5f, 0);
+				Vector3 start = collision.startPosition + offset;
+				Vector3 end = collision.endPosition + offset;
+
+				Q3BSPCollisionData slopetest = level.TraceBox(start, end, minPoint, maxPoint);
+
+				if (slopetest.collisionPoint != collision.collisionPoint + offset) {
+					float opp = offset.Length();
+					float adj = (end - start).Length();
+					float theta = MathHelper.ToDegrees((float) Math.Atan(opp/adj));
+					if (theta < maxClimb)
+						point = slopetest.collisionPoint;
+				}
+			}
+			position = point;
+
+			//Gravity
+			//Check if on floor
+			collision = level.TraceBox(position, position - new Vector3(0, 1, 0), minPoint, maxPoint);
+			if (collision.collisionPoint == collision.endPosition || isJumping) {
+				//Not on floor so check gravity
+				updateGravity(gameTime);
+				collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
+				if (collision.collisionPoint != collision.endPosition) {
+					resetGravity();
+				}
+				position = collision.collisionPoint;
+			}
+			else {
+				//On floor don't do gravity, but reset it
+				resetGravity();
+			}
+		}
+
 		public void moveForward() {
-            if (!m_settings.clipping) {
-                m_velocity -= new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
-            }
-            else {
-                Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
-                straight.Normalize();
-                straight *= m_forward.Length();
-                m_velocity -= straight;
-            }
+            Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
+            straight.Normalize();
+            straight *= m_forward.Length();
+            m_velocity -= straight;
 			m_moving = true;
 		}
 
 		public void moveBackward() {
-            if (!m_settings.clipping) {
-                m_velocity += new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
-            }
-            else {
-                Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
-                straight.Normalize();
-                straight *= m_forward.Length();
-                m_velocity += straight;
-            }
+            Vector3 straight = new Vector3(m_forward.X, 0, m_forward.Z);
+            straight.Normalize();
+            straight *= m_forward.Length();
+            m_velocity += straight;
 			m_moving = true;
 		}
 
 		public void moveLeft() {
-            if (!m_settings.clipping) {
-                m_velocity -= new Vector3(m_left.X, m_left.Y, m_left.Z);
-            }
-            else {
-                Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
-                straight.Normalize();
-                straight *= m_left.Length();
-                m_velocity -= straight;
-            }
+            Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
+            straight.Normalize();
+            straight *= m_left.Length();
+            m_velocity -= straight;
 			m_moving = true;
 		}
 
 		public void moveRight() {
-            if (!m_settings.clipping) {
-                m_velocity += new Vector3(m_left.X, m_left.Y, m_left.Z);
-            }
-            else {
-                Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
-                straight.Normalize();
-                straight *= m_left.Length();
-                m_velocity += straight;
-            }
+            Vector3 straight = new Vector3(m_left.X, 0, m_left.Z);
+            straight.Normalize();
+            straight *= m_left.Length();
+            m_velocity += straight;
 			m_moving = true;
 		}
 

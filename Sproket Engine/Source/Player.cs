@@ -79,6 +79,55 @@ namespace SproketEngine {
 			return m_weapons.selectWeapon(weaponNumber);
 		}
 
+		public new void moveForward() {
+			if (!m_settings.clipping) {
+				m_velocity -= new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
+				m_moving = true;
+			}
+			else {
+				base.moveForward();
+			}
+		}
+
+		public new void moveBackward() {
+			if (!m_settings.clipping) {
+				m_velocity += new Vector3(m_forward.X, m_forward.Y, m_forward.Z);
+				m_moving = true;
+			}
+			else {
+				base.moveBackward();
+			}
+		}
+
+		public new void moveLeft() {
+			if (!m_settings.clipping) {
+				m_velocity -= new Vector3(m_left.X, m_left.Y, m_left.Z);
+				m_moving = true;
+			}
+			else {
+				base.moveLeft();
+			}
+		}
+
+		public new void moveRight() {
+			if (!m_settings.clipping) {
+				m_velocity += new Vector3(m_left.X, m_left.Y, m_left.Z);
+				m_moving = true;
+			}
+			else {
+				base.moveRight();
+			}
+		}
+
+		public override void handleCollision(Q3BSPLevel level, GameTime gameTime) {
+			if (!m_settings.clipping) {
+				position = newPosition;
+			}
+			else {
+				base.handleCollision(level, gameTime);
+			}
+		}
+
 		public void handleInput(GameTime gameTime, bool gameIsActive) {
 			MouseState mouse = Mouse.GetState();
 

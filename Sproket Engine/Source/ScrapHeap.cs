@@ -43,6 +43,8 @@ namespace SproketEngine {
         WaveBank waveBank;
         SoundBank soundBank;
 
+		List<Entity> entities;
+
 		bool fullScreenKeyPressed = false;
 
 		public ScrapHeap() {
@@ -57,6 +59,8 @@ namespace SproketEngine {
 			player = new Player("Player", Vector3.Zero, Vector3.Zero);
 			collisionSystem = new CollisionSystem();
 			entitySystem = new EntitySystem();
+
+			entities = new List<Entity>();
 		}
 
 		/// <summary>
@@ -83,8 +87,6 @@ namespace SproketEngine {
 			buffer = new RenderTarget2D(graphics.GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 1, GraphicsDevice.DisplayMode.Format);
 
 			player.initialize(settings);
-
-			collisionSystem.initialize(this, settings, player, level);
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
@@ -162,6 +164,12 @@ namespace SproketEngine {
 
 			player.reset();
 
+			entities.Clear();
+			entities.Add((Entity) player);
+			entities.AddRange(entitySystem.entities);
+
+			collisionSystem.initialize(this, settings, entities, level);
+
 			Q3BSPEntity spawn = level.GetEntity("info_player_start");
 
 			if(spawn != null) {
@@ -238,6 +246,7 @@ namespace SproketEngine {
 				}
 			}
 
+			entitySystem.update(gameTime);
 			screenManager.update(gameTime);
             audioEngine.Update();
 

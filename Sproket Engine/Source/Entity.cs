@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
 
@@ -54,8 +55,17 @@ namespace SproketEngine {
 			get { return m_rotation; }
 		}
 
-		public virtual void draw(Matrix world, Matrix view, Matrix projection) {
+		public Vector3 lighting {
+			get { return m_lighting; }
+			set { m_lighting = value; }
+		}
 
+		public virtual void handleCollision(Q3BSPLevel level, GameTime gameTime) {
+			//TODO: Collision Handling
+			return;
+		}
+
+		public void draw(Matrix world, Matrix view, Matrix projection) {
 			if (m_model == null)
 				return;
 
@@ -74,5 +84,13 @@ namespace SproketEngine {
 			}
 		}
 
+		public virtual void draw(Matrix view, Matrix projection) {
+			Matrix world = Matrix.Identity *
+						   Matrix.CreateRotationX(rotation.X) *
+						   Matrix.CreateRotationY(rotation.Y) *
+						   Matrix.CreateRotationZ(rotation.Z) *
+						   Matrix.CreateTranslation(position);
+			draw(world, view, projection);
+		}
     }
 }

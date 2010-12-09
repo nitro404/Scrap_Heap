@@ -11,13 +11,14 @@ namespace SproketEngine {
 
 	class EntitySystem {
 
-		private List<Enemy> m_enemies;
+		private List<Entity> m_entities;
 		private Q3BSPLevel m_level;
 
 		private List<Model> m_models;
 
 		public EntitySystem() {
 			m_models = new List<Model>();
+			m_entities = new List<Entity>();
 		}
 
 		public void loadContent(ContentManager content) {
@@ -30,18 +31,19 @@ namespace SproketEngine {
 			m_level = level;
 
 			if(m_level == null) {
-				m_enemies = null;
+				m_entities = null;
 				return;
 			}
-
-			m_enemies = new List<Enemy>();
-
+			
 			loadEntities();
 		}
 
+		public List<Entity> entities {
+			get { return m_entities; }
+		}
 		public void setLighting(Vector3 lighting) {
-			for(int i=0;i<m_enemies.Count();i++) {
-				m_enemies[i].lighting = lighting;
+			foreach (Entity entity in m_entities) {
+				entity.lighting = lighting;
 			}
 		}
 
@@ -80,15 +82,21 @@ namespace SproketEngine {
 					size = Vector3.Zero;
 					scale = 0.0f;
 				}
-				m_enemies.Add(new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), model, size, scale, 10.0f, 20.0f, 6.0f, -50.0f, 45, 75));
+				m_entities.Add((Entity)new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), model, size, scale, 10.0f, 20.0f, 6.0f, -50.0f, 45, 75));
+			}
+		}
+
+		public void update(GameTime gameTime) {
+			foreach (Enemy e in m_entities) {
+				e.update(gameTime);
 			}
 		}
 
 		public void draw(Matrix view, Matrix projection) {
 			if(m_level == null) { return; }
 
-			for(int i=0;i<m_enemies.Count();i++) {
-				m_enemies[i].draw(view, projection);
+			foreach(Entity entity in m_entities) {
+				entity.draw(view, projection);
 			}
 		}
 
