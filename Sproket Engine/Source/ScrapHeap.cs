@@ -43,8 +43,6 @@ namespace SproketEngine {
         WaveBank waveBank;
         SoundBank soundBank;
 
-		List<Entity> entities;
-
 		bool fullScreenKeyPressed = false;
 
 		public ScrapHeap() {
@@ -59,8 +57,6 @@ namespace SproketEngine {
 			player = new Player("Player", Vector3.Zero, Vector3.Zero);
 			collisionSystem = new CollisionSystem();
 			entitySystem = new EntitySystem();
-
-			entities = new List<Entity>();
 		}
 
 		/// <summary>
@@ -164,6 +160,7 @@ namespace SproketEngine {
 
 			player.reset();
 
+			List<Entity> entities = new List<Entity>();
 			entities.Clear();
 			entities.Add((Entity) player);
 			entities.AddRange(entitySystem.entities);
