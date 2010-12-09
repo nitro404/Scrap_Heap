@@ -54,7 +54,7 @@ namespace SproketEngine {
 			menu = new Menu();
 			console = new GameConsole();
 			Content.RootDirectory = "Content";
-			player = new Player("Player", Vector3.Zero, Vector3.Zero, null);
+			player = new Player("Player", Vector3.Zero, Vector3.Zero);
 			collisionSystem = new CollisionSystem();
 			entitySystem = new EntitySystem();
 		}

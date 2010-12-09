@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Player.cs" />
     <Compile Include="Source\CollisionSystem.cs" />
     <Compile Include="Source\EntitySystem.cs" />
     <Compile Include="Source\GameConstants.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="Source\Menu\MenuItem.cs" />
     <Compile Include="Source\Menu\SubMenu.cs" />
     <Compile Include="Source\Menu\Menu.cs" />
-    <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\MovableEntity.cs" />
     <Compile Include="Source\ScreenManager.cs" />
     <Compile Include="Source\CommandInterpreter.cs" />
     <Compile Include="Source\GameConsole.cs" />
