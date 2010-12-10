@@ -59,28 +59,16 @@ namespace SproketEngine {
                 catch {
                     rotation = 0;
                 }
-				Model model;
-				float scale;
-				Vector3 size;
+
 				if(entity.GetClassName().Equals("enemy_robot1", StringComparison.OrdinalIgnoreCase)) {
 					m_entities.Add((Entity) new Ricket(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot2", StringComparison.OrdinalIgnoreCase)) {
-					model = m_models[1];
-					size = new Vector3(4, 14, 4);
-					scale = 0.05f;
+					m_entities.Add((Entity) new Quadrotor(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
 				}
 				else if (entity.GetClassName().Equals("enemy_robot3", StringComparison.OrdinalIgnoreCase)) {
-					model = m_models[2];
-					size = new Vector3(4, 14, 4);
-					scale = 0.03f;
+					m_entities.Add((Entity) new Destrotron(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
 				}
-				else {
-					model = null;
-					size = Vector3.Zero;
-					scale = 0.0f;
-				}
-				//m_entities.Add((Entity)new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), model, size, scale, 10.0f, 20.0f, 6.0f, -50.0f, 45, 75, 100));
 			}
 		}
 
