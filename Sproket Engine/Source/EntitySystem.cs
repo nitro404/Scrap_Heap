@@ -22,9 +22,9 @@ namespace SproketEngine {
 		}
 
 		public void loadContent(ContentManager content) {
-			m_models.Add(content.Load<Model>("Models\\Enemies\\Robo1"));
-            m_models.Add(content.Load<Model>("Models\\Enemies\\Robo2"));
-            m_models.Add(content.Load<Model>("Models\\Enemies\\Robo3"));
+			Ricket.loadContent(content.Load<Model>("Models\\Enemies\\Robo1"));
+			Quadrotor.loadContent(content.Load<Model>("Models\\Enemies\\Robo2"));
+			Destrotron.loadContent(content.Load<Model>("Models\\Enemies\\Robo3"));
 		}
 		
 		public void initialize(Q3BSPLevel level) {
@@ -63,9 +63,7 @@ namespace SproketEngine {
 				float scale;
 				Vector3 size;
 				if(entity.GetClassName().Equals("enemy_robot1", StringComparison.OrdinalIgnoreCase)) {
-					model = m_models[0];
-					size = new Vector3(4, 14, 4);
-					scale = 0.025f;
+					m_entities.Add((Entity) new Ricket(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot2", StringComparison.OrdinalIgnoreCase)) {
 					model = m_models[1];
@@ -82,7 +80,7 @@ namespace SproketEngine {
 					size = Vector3.Zero;
 					scale = 0.0f;
 				}
-				m_entities.Add((Entity)new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), model, size, scale, 10.0f, 20.0f, 6.0f, -50.0f, 45, 75));
+				//m_entities.Add((Entity)new Enemy(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0), model, size, scale, 10.0f, 20.0f, 6.0f, -50.0f, 45, 75, 100));
 			}
 		}
 

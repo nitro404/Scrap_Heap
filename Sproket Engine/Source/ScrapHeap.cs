@@ -112,7 +112,7 @@ namespace SproketEngine {
 			console.loadContent(Content);
 
 			player.loadContent(Content, spriteSheets.getSpriteSheet("Crosshairs"));
-
+			
 			entitySystem.loadContent(Content);
 
 			// load shaders

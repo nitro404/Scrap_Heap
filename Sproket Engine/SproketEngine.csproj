@@ -97,10 +97,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Enemies\Destrotron.cs" />
+    <Compile Include="Source\Enemies\Quadrotor.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\CollisionSystem.cs" />
     <Compile Include="Source\EntitySystem.cs" />
     <Compile Include="Source\GameConstants.cs" />
+    <Compile Include="Source\Enemies\Ricket.cs" />
     <Compile Include="Source\Sprite Sheet System\Sprite.cs" />
     <Compile Include="Source\Sprite Sheet System\SpriteAnimation.cs" />
     <Compile Include="Source\Sprite Sheet System\SpriteSheet.cs" />
@@ -109,7 +112,7 @@
     <Compile Include="Source\Weapon System\AmmunitionCollection.cs" />
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\ControlSystem.cs" />
-    <Compile Include="Source\Enemy.cs" />
+    <Compile Include="Source\Enemies\Enemy.cs" />
     <Compile Include="Source\Entity.cs" />
     <Compile Include="Source\Key.cs" />
     <Compile Include="Source\Menu\SimpleMenuItem.cs" />

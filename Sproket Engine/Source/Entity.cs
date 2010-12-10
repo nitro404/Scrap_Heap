@@ -11,9 +11,6 @@ using XNAQ3Lib.Q3BSP;
 namespace SproketEngine {
 
     class Entity {
-
-		protected GameSettings m_settings;
-
 		protected int m_id;
 		protected static int m_idCounter = 0;
 
@@ -43,10 +40,6 @@ namespace SproketEngine {
 			m_minPoint = new Vector3(-xSize, 0, -zSize);
 			m_maxPoint = new Vector3(xSize, ySize, zSize);
         }
-
-		public void initialize(GameSettings settings) {
-			m_settings = settings;
-		}
 
 		public Vector3 position {
 			get { return m_position; }

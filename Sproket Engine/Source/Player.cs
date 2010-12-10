@@ -11,6 +11,8 @@ using XNAQ3Lib.Q3BSP;
 namespace SproketEngine {
 	class Player : MovableEntity {
 
+		protected GameSettings m_settings;
+
 		private string m_name;
 
 		private int m_health;
@@ -40,7 +42,7 @@ namespace SproketEngine {
 		public new void initialize(GameSettings settings) {
 			m_camera.initialize(settings);
 			m_weapons.initialize();
-			base.initialize(settings);
+			m_settings = settings;
 		}
 
 		public void loadContent(ContentManager content, SpriteSheet crosshairSprites) {
