@@ -51,6 +51,7 @@ namespace SproketEngine {
 			m_jumping = false;
 		}
 
+		//Reset all variables. Used on map resets.
 		public void reset() {
 			m_active = false;
 			m_moving = false;
@@ -63,7 +64,6 @@ namespace SproketEngine {
 			m_gravity = Vector3.Zero;
 			m_velocity = Vector3.Zero;
 		}
-
 
 		public Vector3 velocity {
 			get { return m_velocity; }
@@ -151,6 +151,7 @@ namespace SproketEngine {
 			if (!active)
 				return;
 
+			//Simple collision detection against level
 			Q3BSPCollisionData collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
 			position = collision.collisionPoint;
 		}

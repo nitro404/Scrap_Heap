@@ -12,12 +12,14 @@ namespace SproketEngine {
 	class Ricket : Enemy {
 		static Model s_model;
 
+		//Custom Stats for Ricket Enemy
 		public Ricket(Vector3 position, Vector3 rotation) :
 			base(position, rotation, s_model, new Vector3(4, 14, 4), 0.025f, 
 				 5.5f, 20.0f, 6.0f, -50.0f, 45, 75, 100) {
 			
 		}
 
+		//Only use 1 instance of Model
 		public static void loadContent(Model model) {
 			s_model = model;
 		}
@@ -26,7 +28,7 @@ namespace SproketEngine {
 		public override void update(GameTime gameTime) {
 			if (!m_active)
 				return;
-
+			//Simple Chase Player
 			rotateTo(s_player.position, gameTime);
 			moveForward();
 			base.update(gameTime);

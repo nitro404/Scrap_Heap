@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Input;
 using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
-
+	//Anything and vverything represented by a model in the world
     class Entity {
-		protected int m_id;
+		protected int m_id;	//Unique ID
 		protected static int m_idCounter = 0;
 
         protected Vector3 m_position;
@@ -34,6 +34,7 @@ namespace SproketEngine {
 			m_model = model;
 
 			m_dimensions = dimensions;
+			//Generate Min and Max points for the bounding box.
 			float xSize = (m_dimensions.X / 2);
 			float ySize = m_dimensions.Y;
 			float zSize = (m_dimensions.Z / 2);
@@ -61,7 +62,7 @@ namespace SproketEngine {
 		}
 
 		public virtual void handleCollision(Q3BSPLevel level, GameTime gameTime) {
-			//TODO: Collision Handling
+			//No Collision with Basic Entities
 			return;
 		}
 
@@ -69,6 +70,7 @@ namespace SproketEngine {
 			if (m_model == null)
 				return;
 
+			//Draw Model
 			Matrix[] transforms = new Matrix[m_model.Bones.Count];
 			m_model.CopyAbsoluteBoneTransformsTo(transforms);
 			foreach (ModelMesh mesh in m_model.Meshes) {
@@ -85,6 +87,7 @@ namespace SproketEngine {
 		}
 
 		public virtual void draw(Matrix view, Matrix projection) {
+			//Standard ISROT
 			Matrix world = Matrix.Identity *
 						   Matrix.CreateRotationX(rotation.X) *
 						   Matrix.CreateRotationY(rotation.Y) *

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SproketEngine {
 
+	//Enemies or NPCs
     class Enemy : MovableEntity{
 
         protected float m_scale;
@@ -69,14 +70,11 @@ namespace SproketEngine {
 
 		}
 		public override void update(GameTime gameTime) {
-			//m_forward = Vector3.Normalize(new Vector3((float) Math.Sin(-m_rotation.Y), (float) Math.Sin(m_rotation.X), (float) Math.Cos(-m_rotation.Y)));
-			//m_left = Vector3.Normalize(new Vector3((float) Math.Cos(m_rotation.Y), 0f, (float) Math.Sin(m_rotation.Y)));
 			m_forward = Vector3.Transform(Vector3.Forward, Matrix.CreateRotationY(m_rotation.Y));
 			m_left = Vector3.Transform(Vector3.Left, Matrix.CreateRotationY(m_rotation.Y));
 			base.update(gameTime);
 		}
 		public override void draw(Matrix view, Matrix projection) {
-			//TODO: Rotation
 			Matrix world = Matrix.CreateScale(m_scale, m_scale, m_scale) * 
                 Matrix.CreateRotationY(m_rotation.Y) *
                 Matrix.CreateTranslation(m_position);

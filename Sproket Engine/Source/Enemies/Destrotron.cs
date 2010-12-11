@@ -12,12 +12,14 @@ namespace SproketEngine {
 	class Destrotron : Enemy {
 		static Model s_model;
 
+		//Custom Stats for Destrotron
 		public Destrotron(Vector3 position, Vector3 rotation) :
 			base(position, rotation, s_model, new Vector3(4, 14, 4), 0.025f, 
 				 10.0f, 0.5f, 1f, -50.0f, 45, 75, 100) {
 			
 		}
 
+		//Only use 1 instance of Model
 		public static void loadContent(Model model) {
 			s_model = model;
 		}
