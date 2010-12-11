@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
 	class Destrotron : Enemy {
@@ -35,6 +36,22 @@ namespace SproketEngine {
 		//Custom Collision Detection 
 		public override void handleCollision(XNAQ3Lib.Q3BSP.Q3BSPLevel level, GameTime gameTime) {
 			base.handleCollision(level, gameTime);
+			//Gravity
+			//Check if on floor
+			Q3BSPCollisionData collision = level.TraceBox(position, position - new Vector3(0, 1, 0), minPoint, maxPoint);
+			if (collision.collisionPoint == collision.endPosition || isJumping) {
+				//Not on floor so check gravity
+				updateGravity(gameTime);
+				collision = level.TraceBox(position, newPosition, minPoint, maxPoint);
+				if (collision.collisionPoint != collision.endPosition) {
+					resetGravity();
+				}
+				position = collision.collisionPoint;
+			}
+			else {
+				//On floor don't do gravity, but reset it
+				resetGravity();
+			}
 		}
 	}
 }
