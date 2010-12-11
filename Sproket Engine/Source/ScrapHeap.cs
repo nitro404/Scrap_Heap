@@ -83,6 +83,7 @@ namespace SproketEngine {
 			buffer = new RenderTarget2D(graphics.GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 1, GraphicsDevice.DisplayMode.Format);
 
 			player.initialize(settings);
+			Enemy.setPlayer(player);
 
 			screenManager.initialize(this, settings, interpreter, controlSystem, menu, console);
 
@@ -246,6 +247,7 @@ namespace SproketEngine {
 			entitySystem.update(gameTime);
 			screenManager.update(gameTime);
             audioEngine.Update();
+			entitySystem.update(gameTime);
 
 			base.Update(gameTime);
 		}

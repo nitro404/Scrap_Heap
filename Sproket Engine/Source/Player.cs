@@ -39,7 +39,7 @@ namespace SproketEngine {
 			m_camera = new Camera();
 		}
 
-		public new void initialize(GameSettings settings) {
+		public void initialize(GameSettings settings) {
 			m_camera.initialize(settings);
 			m_weapons.initialize();
 			m_settings = settings;

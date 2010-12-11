@@ -23,6 +23,11 @@ namespace SproketEngine {
 
 		//AI
 		public override void update(GameTime gameTime) {
+			if (!m_active)
+				return;
+
+			rotateTo(s_player.position, gameTime);
+			moveForward();
 			base.update(gameTime);
 		}
 
