@@ -45,6 +45,11 @@ namespace SproketEngine {
 			m_settings = settings;
 		}
 
+		public new void reset() {
+			base.reset();
+			m_active = true;
+		}
+
 		public void loadContent(ContentManager content, SpriteSheet crosshairSprites) {
 			m_weapons.loadContent(content);
 			m_crosshairSprites = crosshairSprites;
