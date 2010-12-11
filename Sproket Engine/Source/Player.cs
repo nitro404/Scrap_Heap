@@ -125,7 +125,22 @@ namespace SproketEngine {
 				base.moveRight();
 			}
 		}
+		private Vector3 slopeCollision(Q3BSPLevel level, Vector3 start, Vector3 collision, Vector3 end, Vector3 offset, float angle) {
+			start += offset;
+			end += offset;
 
+			Q3BSPCollisionData slopetest = level.TraceBox(start, end, minPoint, maxPoint);
+
+			if (slopetest.collisionPoint != collision + offset) {
+				float opp = offset.Length();
+				float adj = (end - start).Length();
+				float theta = MathHelper.ToDegrees((float) Math.Atan(opp/adj));
+				if (theta < angle)
+					return slopetest.collisionPoint;	
+			}
+
+			return collision;
+		}
 		public override void handleCollision(Q3BSPLevel level, GameTime gameTime) {
 			if (!m_settings.clipping) {
 				position = newPosition;
@@ -135,19 +150,15 @@ namespace SproketEngine {
 				Vector3 point = collision.collisionPoint;
 
 				if (collision.collisionPoint != collision.endPosition) {
-					Vector3 offset = new Vector3(0, 0.5f, 0);
-					Vector3 start = collision.startPosition + offset;
-					Vector3 end = collision.endPosition + offset;
+					Vector3 start = collision.startPosition;
+					Vector3 col = collision.collisionPoint;
+					Vector3 end = collision.endPosition;
 
-					Q3BSPCollisionData slopetest = level.TraceBox(start, end, minPoint, maxPoint);
-
-					if (slopetest.collisionPoint != collision.collisionPoint + offset) {
-						float opp = offset.Length();
-						float adj = (end - start).Length();
-						float theta = MathHelper.ToDegrees((float) Math.Atan(opp/adj));
-						if (theta < maxClimb)
-							point = slopetest.collisionPoint;
-					}
+					//Wall Detection: Not Working 
+					//point = slopeCollision(level, start, col, end, m_left, 75);
+					//Ramp Detection
+					point = slopeCollision(level, start, col, end, new Vector3(0, 0.5f, 0), maxClimb);
+					
 				}
 				position = point;
 

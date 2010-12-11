@@ -49,8 +49,6 @@ namespace SproketEngine {
 			m_gravity = Vector3.Zero;
 			m_moving = false;
 			m_jumping = false;
-
-			
 		}
 
 		public void reset() {
