@@ -126,6 +126,121 @@
       <Name>spritesheets</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Textures\Models\Weapons\ShrapCan\ShrapCan_Barrel.tga">
+      <Name>ShrapCan_Barrel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\ShrapCan\ShrapCan_Body.tga">
+      <Name>ShrapCan_Body</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\ShrapCan\ShrapCan_Grip.tga">
+      <Name>ShrapCan_Grip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\Pistol\Pistol_Barrel.tga">
+      <Name>Pistol_Barrel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\Pistol\Pistol_Body.tga">
+      <Name>Pistol_Body</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\Pistol\Pistol_Grip.tga">
+      <Name>Pistol_Grip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\MachineRifle\MachineRifle_Barrel.tga">
+      <Name>MachineRifle_Barrel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\MachineRifle\MachineRifle_Body.tga">
+      <Name>MachineRifle_Body</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\MachineRifle\MachineRifle_Detail.tga">
+      <Name>MachineRifle_Detail</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\GaussGun\GaussGun_Barrel.tga">
+      <Name>GaussGun_Barrel</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\GaussGun\GaussGun_Details.tga">
+      <Name>GaussGun_Details</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\GaussGun\GaussGun_Grip.tga">
+      <Name>GaussGun_Grip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Weapons\GaussGun\GaussGun_Stock.tga">
+      <Name>GaussGun_Stock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo1\Robo1_Body.tga">
+      <Name>Robo1_Body</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo1\Robo1_Head.tga">
+      <Name>Robo1_Head</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo1\Robo1_Tracks.tga">
+      <Name>Robo1_Tracks</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo2\Robo2_Head.tga">
+      <Name>Robo2_Head</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo2\Robo2_Props.tga">
+      <Name>Robo2_Props</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo3\Robo3_Arms.tga">
+      <Name>Robo3_Arms</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo3\Robo3_Base.tga">
+      <Name>Robo3_Base</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo3\Robo3_Head.tga">
+      <Name>Robo3_Head</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo3\Robo3_Torso.tga">
+      <Name>Robo3_Torso</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Textures\Models\Enemies\Robo3\Robo3_Treads.tga">
+      <Name>Robo3_Treads</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
     <None Include="Textures\Models\Weapons\SlugThrower\SlugThrower_Barrel.tga">
       <Name>SlugThrower_Barrel</Name>
       <Importer>TextureImporter</Importer>
