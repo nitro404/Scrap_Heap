@@ -38,6 +38,10 @@ namespace SproketEngine {
 			loadEntities();
 		}
 
+		public void reset() {
+			m_entities.Clear();
+		}
+
 		public List<Entity> entities {
 			get { return m_entities; }
 		}

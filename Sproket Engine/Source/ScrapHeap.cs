@@ -157,6 +157,7 @@ namespace SproketEngine {
 
 			level = newLevel;
 			collisionSystem.level = level;
+			entitySystem.reset();
 			entitySystem.initialize(level);
 
 			player.reset();
