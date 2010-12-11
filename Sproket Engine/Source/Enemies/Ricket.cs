@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XNAQ3Lib.Q3BSP;
 
 namespace SproketEngine {
 	class Ricket : Enemy {
