@@ -14,7 +14,7 @@ namespace SproketEngine {
 
 		public Ricket(Vector3 position, Vector3 rotation) :
 			base(position, rotation, s_model, new Vector3(4, 14, 4), 0.025f, 
-				 10.0f, 20.0f, 6.0f, -50.0f, 45, 75, 100) {
+				 5.5f, 20.0f, 6.0f, -50.0f, 45, 75, 100) {
 			
 		}
 

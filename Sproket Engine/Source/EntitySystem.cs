@@ -65,13 +65,13 @@ namespace SproketEngine {
                 }
 
 				if(entity.GetClassName().Equals("enemy_robot1", StringComparison.OrdinalIgnoreCase)) {
-					m_entities.Add((Entity) new Ricket(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
+					m_entities.Add((Entity) new Ricket(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 5.999f, 0), new Vector3(0, rotation, 0)));
 				}
 				else if(entity.GetClassName().Equals("enemy_robot2", StringComparison.OrdinalIgnoreCase)) {
-					m_entities.Add((Entity) new Quadrotor(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
+					m_entities.Add((Entity) new Quadrotor(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 5.999f, 0), new Vector3(0, rotation, 0)));
 				}
 				else if (entity.GetClassName().Equals("enemy_robot3", StringComparison.OrdinalIgnoreCase)) {
-					m_entities.Add((Entity) new Destrotron(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 6, 0), new Vector3(0, rotation, 0)));
+					m_entities.Add((Entity) new Destrotron(Q3BSPLevel.GetXNAPosition(entity) - new Vector3(0, 5.999f, 0), new Vector3(0, rotation, 0)));
 				}
 			}
 		}

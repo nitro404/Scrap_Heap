@@ -40,7 +40,7 @@ namespace SproketEngine {
 			//Gotta figure something out here.
 			foreach (Entity entity in m_entities) {
 
-				if (Vector3.Distance(player.position, entity.position) < 150.0f) {
+				if (Vector3.Distance(player.position, entity.position) < 75.0f) {
 					entity.active = true;
 					entity.handleCollision(m_level, gameTime);
 				}
