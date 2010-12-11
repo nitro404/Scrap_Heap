@@ -21,6 +21,7 @@ namespace SproketEngine {
 
 		private GameSettings m_settings;
 
+		// initialize the camera
 		public void initialize(GameSettings settings) {
 			m_settings = settings;
 
@@ -29,12 +30,14 @@ namespace SproketEngine {
 			m_projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 		}
 
+		// compute the view matrix
 		public Matrix getView(Vector3 position, Vector3 rotation) {
 			return Matrix.CreateTranslation(-(position + m_cameraOffset)) *
 				   Matrix.CreateRotationY(rotation.Y) *
 				   Matrix.CreateRotationX(rotation.X);
 		}
 
+		// return the projection matrix
 		public Matrix projection {
 			get { return m_projection; }
 		}

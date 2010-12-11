@@ -80,8 +80,11 @@ namespace SproketEngine {
 				graphics.ToggleFullScreen();
 			}
 
+			// initialize the draw buffer
 			buffer = new RenderTarget2D(graphics.GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 1, GraphicsDevice.DisplayMode.Format);
 
+
+			// initialize all game-related systems
 			player.initialize(settings);
 			Enemy.setPlayer(player);
 
@@ -96,7 +99,9 @@ namespace SproketEngine {
 			console.initialize(settings, interpreter);
 
 			base.Initialize();
-            graphics.GraphicsDevice.RenderState.CullMode = CullMode.None; // no backface culling
+
+			// disable culling (quick hack fix)
+			graphics.GraphicsDevice.RenderState.CullMode = CullMode.None;
 		}
 
 		/// <summary>
@@ -106,8 +111,10 @@ namespace SproketEngine {
 		protected override void LoadContent() {
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
+			// parse and load all sprite sheets
 			spriteSheets = SpriteSheetCollection.parseFrom(Content.RootDirectory + "/" + settings.spriteSheetFileName, Content);
 
+			// load game content
 			menu.loadContent(Content);
 
 			console.loadContent(Content);
@@ -136,14 +143,17 @@ namespace SproketEngine {
 			if(levelName == null) {
 				return false;
 			}
-
+			
 			levelName = levelName.Trim();
 
+			// initialize a new level
 			Q3BSPLevel newLevel = new Q3BSPLevel(Q3BSPRenderType.StaticBuffer);
 			newLevel.BasePath = levelName;
 
+			// check if the filename ends with .bsp
 			bool addBsp = !levelName.ToLower().EndsWith(".bsp");
 
+			// attempt to load and initialize the level
 			try {
 				if(newLevel.LoadFromFile(Content.RootDirectory + "/maps/" + newLevel.BasePath + (addBsp ? ".bsp" : ""))) {
 					if(!newLevel.InitializeLevel(GraphicsDevice, Content, @"Shaders\")) {
@@ -155,6 +165,7 @@ namespace SproketEngine {
 				return false;
 			}
 
+			// set the active level to the new level and reset all game systems, parse all entities from level
 			level = newLevel;
 			collisionSystem.level = level;
 			entitySystem.reset();
@@ -162,21 +173,26 @@ namespace SproketEngine {
 
 			player.reset();
 
+			// create entity objects from entity list
 			List<Entity> entities = new List<Entity>();
 			entities.Clear();
 			entities.Add((Entity) player);
 			entities.AddRange(entitySystem.entities);
 
+			// initialize the collision system
 			collisionSystem.initialize(this, settings, entities, level);
 
+			// check for a spawn point
 			Q3BSPEntity spawn = level.GetEntity("info_player_start");
 
 			if(spawn != null) {
+				// convert the spawn's BSP co-ordinates to XNA co-ordinates
 				Vector3 position = Q3BSPLevel.GetXNAPosition(spawn);
 
 				// offset spawn position to bottom-center of entity
 				position.Y -= 6.0f;
 
+				// assign the spawn position to the player's position
 				player.position = position;
 			}
 
@@ -207,6 +223,7 @@ namespace SproketEngine {
 		/// Handles any user input for game interaction.
 		/// </summary>
 		public void handleInput(GameTime gameTime) {
+			// update and handle input for the player, control system, and collision system
 			player.handleInput(gameTime, IsActive);
 
 			controlSystem.handleInput(gameTime);
@@ -214,6 +231,8 @@ namespace SproketEngine {
 			player.update(gameTime);
 
 			collisionSystem.update(gameTime);
+
+			entitySystem.update(gameTime);
 		}
 
 		/// <summary>
@@ -245,10 +264,9 @@ namespace SproketEngine {
 				}
 			}
 
-			entitySystem.update(gameTime);
+			// allow the screen manager to handle updates
 			screenManager.update(gameTime);
             audioEngine.Update();
-			entitySystem.update(gameTime);
 
 			base.Update(gameTime);
 		}
@@ -261,6 +279,7 @@ namespace SproketEngine {
 			graphics.GraphicsDevice.SetRenderTarget(0, buffer);
 			GraphicsDevice.Clear(Color.Black);
 
+			// render the levels, entity and any first-person player-related elements (ie. crosshair, weapon, etc.)
 			if(level != null) {
 				level.RenderLevel(player.position, player.view, player.projection, gameTime, graphics.GraphicsDevice);
 
@@ -269,6 +288,7 @@ namespace SproketEngine {
 				player.draw(spriteBatch);
 			}
 
+			// disable the render target for post processing
 			graphics.GraphicsDevice.SetRenderTarget(0, null);
 
             // blur game screen if menu is open
@@ -285,6 +305,7 @@ namespace SproketEngine {
                 spriteBatch.End();
                 blur.End();
             }
+			// otherwise apply other post-processing effects
             else {
                 post.Begin();
                 spriteBatch.Begin(SpriteBlendMode.None, SpriteSortMode.Immediate, SaveStateMode.SaveState);

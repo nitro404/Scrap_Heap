@@ -9,7 +9,10 @@ namespace SproketEngine {
 
 	class ControlSystem {
 
+		// list of commands
 		private string[] m_commands;
+
+		// list of valid input keys
 		private static Keys[] m_keys = new Keys[] {
 			Keys.F1, Keys.F2, Keys.F3, Keys.F4, Keys.F5, Keys.F6, Keys.F7, Keys.F8, Keys.F9, Keys.F10, Keys.F11, Keys.F12,
 			Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
@@ -18,6 +21,8 @@ namespace SproketEngine {
 			Keys.Tab, Keys.Space, Keys.Up, Keys.Down, Keys.Left, Keys.Right,
 			Keys.Enter, Keys.Home, Keys.End, Keys.PageUp, Keys.PageDown, Keys.Delete, Keys.Back
 		};
+
+		// list of aliases for each input key
 		private static Key[] m_keyStrings = new Key[] {
 			new Key("F1"), new Key("F2"), new Key("F3"), new Key("F4"), new Key("F5"), new Key("F6"), new Key("F7"), new Key("F8"), new Key("F9"), new Key("F10"), new Key("F11"), new Key("F12"),
 			new Key("1", "One"), new Key("2", "Two"), new Key("3", "Three"), new Key("4", "Four"), new Key("5", "Five"), new Key("6", "Six"), new Key("7", "Seven"), new Key("8", "Eight"), new Key("9", "Nine"), new Key("0", "Zero"),
@@ -27,6 +32,7 @@ namespace SproketEngine {
 			new Key("Enter", "Return"), new Key("Home"), new Key("End"), new Key("PageUp", "PgUp"), new Key("PageDown", "PgDn"), new Key("Delete", "Del"), new Key("Backspace")
 		};
 
+		// "global" variables
 		private GameSettings m_settings;
 		private CommandInterpreter m_interpreter;
 
@@ -34,12 +40,15 @@ namespace SproketEngine {
 			m_commands = new string[m_keys.Length];
 		}
 
+		// initialize the control system
 		public void initialize(GameSettings settings, CommandInterpreter interpreter) {
 			m_settings = settings;
 			m_interpreter = interpreter;
 
+			// get the list of controls from the settings file manager
 			List<Variable> controlVariables = settings.getControls();
 
+			// create the key bindings based on these controls
 			for(int i=0;i<controlVariables.Count();i++) {
 				string key = controlVariables[i].id;
 				string cmd = controlVariables[i].value;
@@ -48,11 +57,14 @@ namespace SproketEngine {
 			}
 		}
 
+		// bind a key to a command
 		public bool createKeyBind(string key, string cmd) {
 			if(key == null || cmd == null) { return false; }
 
+			// get the index of the key based on its alias
 			int keyIndex = getKeyIndex(key);
 
+			// if the key is valid, store the command
 			if(keyIndex >= 0) {
 				m_commands[keyIndex] = cmd;
 				m_settings.createKeyBind(m_keyStrings[keyIndex], cmd);
@@ -62,11 +74,14 @@ namespace SproketEngine {
 			return false;
 		}
 
+		// unbind a command from a key
 		public bool removeKeyBind(string key) {
 			if(key == null) { return false; }
 
+			// get the index of the key based on its alias
 			int keyIndex = getKeyIndex(key);
 
+			// if the key is valid, set the command to null
 			if(keyIndex >= 0) {
 				m_commands[keyIndex] = null;
 				m_settings.removeKeyBind(m_keyStrings[keyIndex]);
@@ -76,6 +91,7 @@ namespace SproketEngine {
 			return false;
 		}
 
+		// unbind all commands from all keys
 		public void removeAllKeyBinds() {
 			for(int i=0;i<m_commands.Length;i++) {
 				m_commands[i] = null;
@@ -84,10 +100,12 @@ namespace SproketEngine {
 			m_settings.removeAllKeyBinds();
 		}
 
+		// get the index of a key based on its alias
 		public static int getKeyIndex(string data) {
 			if(data == null) { return -1; }
 			string keyString = data.Trim();
 
+			// loop through all of the keys and all of the aliases for each key, until a match is found
 			for(int i=0;i<m_keyStrings.Length;i++) {
 				for(int j=0;j<m_keyStrings[i].size();j++) {
 					if(keyString.Equals(m_keyStrings[i].getKeyString(j), StringComparison.OrdinalIgnoreCase)) {
@@ -99,8 +117,10 @@ namespace SproketEngine {
 		}
 
 		public void handleInput(GameTime gameTime) {
+			// get the keys currently pressed
 			Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
 
+			// loop through all of the input keys, and if the current pressed key has a command associated with it, execute the command
 			for(int i=0;i<pressedKeys.Length;i++) {
 				for(int j=0;j<m_keys.Length;j++) {
 					if(pressedKeys[i] == m_keys[j] && m_commands[j] != null) {

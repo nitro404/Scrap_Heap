@@ -19,6 +19,7 @@ namespace SproketEngine {
 			createMenu();
 		}
 
+		// create the single player menu elements
 		public void createMenu() {
 			float x = m_position.X;
 			float y = m_position.Y + m_titleFont.LineSpacing;
@@ -44,6 +45,7 @@ namespace SproketEngine {
 			base.right();
 		}
 
+		// handle input based on the current selected menu item
 		public override void select() {
 			if(m_index == 0) {
 				m_interpreter.execute("menu off");

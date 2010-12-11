@@ -25,6 +25,7 @@ namespace SproketEngine {
 		}
 
 		public void draw(Vector3 position, Vector3 forward, Vector3 rotation, Matrix view, Matrix projection) {
+			// compute the transformation that brings a weapon into the player's view
 			Matrix worldMatrix = Matrix.Identity;
 			worldMatrix *= Matrix.CreateScale(0.005f, 0.005f, 0.005f);
 
@@ -37,6 +38,7 @@ namespace SproketEngine {
 			worldMatrix *= Matrix.CreateTranslation(Vector3.Up * 11.58f);
 			worldMatrix *= Matrix.CreateTranslation(forward * -0.28f);
 
+			// apply the transformation to the player's weapon and draw it
 			Matrix[] transforms = new Matrix[m_model.Bones.Count];
 			m_model.CopyAbsoluteBoneTransformsTo(transforms);
 			foreach(ModelMesh mesh in m_model.Meshes) {

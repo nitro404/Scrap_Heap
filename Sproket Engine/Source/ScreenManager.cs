@@ -8,14 +8,18 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SproketEngine {
 
+	// all of the screens which are managed by the ScreenManager
 	enum ScreenType { Game, Menu, Console }
 
+	// the screen visibility change type
 	enum ScreenVisibilityChange { None, Show, Hide, Toggle }
 
 	class ScreenManager {
 
+		// local variables
 		private ScreenType m_activeScreen = ScreenType.Menu;
 
+		// "global" variables
 		private ScrapHeap m_game;
 		private GameSettings m_settings;
 		private CommandInterpreter m_interpreter;
@@ -26,6 +30,7 @@ namespace SproketEngine {
 		public ScreenManager() { }
 
 		public void initialize(ScrapHeap game, GameSettings settings, CommandInterpreter interpreter, ControlSystem controlSystem, Menu menu, GameConsole console) {
+			// initialize references to "global" variables
 			m_game = game;
 			m_settings = settings;
 			m_interpreter = interpreter;
@@ -34,6 +39,7 @@ namespace SproketEngine {
 			m_console = console;
 		}
 
+		// toggle the specified screen
 		public void toggle(ScreenType screen) {
 			if(screen == ScreenType.Menu) {
                 if(m_game.levelLoaded() || !m_menu.active)
@@ -43,15 +49,18 @@ namespace SproketEngine {
 				m_console.toggle();
 			}
 
+			// since screens can be layered, determine which screen now takes priority
 			updateActiveScreen();
 		}
 
+		// manually change the visibility of a specific screen
 		public void set(ScreenType screen, ScreenVisibilityChange visibility) {
 				 if(visibility == ScreenVisibilityChange.Toggle) { toggle(screen); }
 			else if(visibility == ScreenVisibilityChange.Show) { show(screen); }
 			else if(visibility == ScreenVisibilityChange.Hide) { hide(screen); }
 		}
 
+		// force enable a specified screen
 		public void show(ScreenType screen) {
 			if(screen == ScreenType.Game) {
 				m_menu.close();
@@ -64,9 +73,11 @@ namespace SproketEngine {
 				m_console.open();
 			}
 
+			// set the active screen to the specified (and disable any others)
 			m_activeScreen = screen;
 		}
 
+		// force disable a specified screen
 		public void hide(ScreenType screen) {
 			if(screen == ScreenType.Menu) {
 				m_menu.close();
@@ -78,12 +89,14 @@ namespace SproketEngine {
 			updateActiveScreen();
 		}
 
+		// determine which screen now takes priority
 		private void updateActiveScreen() {
 			m_activeScreen = ScreenType.Game;
 			if(m_menu.active) { m_activeScreen = ScreenType.Menu; }
 			if(m_console.active) { m_activeScreen = ScreenType.Console; }
 		}
 
+		// allow the active screen to receive input from the user
 		public void handleInput(GameTime gameTime) {
 			KeyboardState keyboard = Keyboard.GetState();
 
@@ -96,18 +109,24 @@ namespace SproketEngine {
 			m_console.handleInput(gameTime);
 		}
 
+		// update the active screen
 		public void update(GameTime gameTime) {
 			if(m_menu.active) { m_menu.update(gameTime); }
 			if(m_console.active) { m_console.update(gameTime); }
 		}
 
+		// draw the active screen
 		public void draw(SpriteBatch spriteBatch, GraphicsDevice graphics) {
-			spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
+			if(m_menu.active || m_console.active) {
+				spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.SaveState);
+			}
 
 			if(m_menu.active) { m_menu.draw(spriteBatch); }
 			if(m_console.active) { m_console.draw(spriteBatch); }
 
-			spriteBatch.End();
+			if(m_menu.active || m_console.active) {
+				spriteBatch.End();
+			}
 		}
 
 	}

@@ -13,6 +13,7 @@ namespace SproketEngine {
 
 	class Menu {
 
+		// local variables
 		private bool m_active = true;
 		private MenuType m_currentMenu = MenuType.Main;
 		private List<SubMenu> m_menu;
@@ -24,6 +25,7 @@ namespace SproketEngine {
 		private Color m_unselectedItemColour;
 		private Color m_arrowColour;
 
+		// boolean locking variables
 		private bool m_backKeyPressed = false;
 		private bool m_selectKeyPressed = false;
 		private bool m_upKeyPressed = false;
@@ -31,6 +33,7 @@ namespace SproketEngine {
 		private bool m_leftKeyPressed = false;
 		private bool m_rightKeyPressed = false;
 
+		// "global" variables
 		private GameSettings m_settings;
 		private CommandInterpreter m_interpreter;
 
@@ -43,22 +46,28 @@ namespace SproketEngine {
 			m_arrowColour = new Color(255, 255, 255);
 		}
 
+		// initialize the menu
 		public void initialize(GameSettings settings, CommandInterpreter interpreter) {
 			m_settings = settings;
 			m_interpreter = interpreter;
 
+			// add all sub-menus to the sub-menu collection
 			m_menu.Add(new MainMenu(this, m_position, m_titleColour, m_selectedItemColour, m_unselectedItemColour, m_arrowColour));
 			m_menu.Add(new GameSinglePlayerMenu(this, m_position, m_titleColour, m_selectedItemColour, m_unselectedItemColour, m_arrowColour));
 
+			// initialize all sub-menus
 			for(int i=0;i<m_menu.Count();i++) {
 				m_menu[i].initialize(m_interpreter);
 			}
 		}
 
+		// load menu content
 		public void loadContent(ContentManager content) {
+			// load menu fonts
 			m_titleFont = content.Load<SpriteFont>("Fonts/MenuTitleFont");
 			m_itemFont = content.Load<SpriteFont>("Fonts/MenuItemFont");
 
+			// set fonts for all sub-menus
 			for(int i=0;i<m_menu.Count();i++) {
 				m_menu[i].setContent(m_titleFont, m_itemFont);
 			}
@@ -186,6 +195,7 @@ namespace SproketEngine {
 			m_menu[(int) m_currentMenu].right();
 		}
 
+		// navigate to the previous sub-menu (or toggle the menu, if appropriate)
 		public void back() {
 			if(m_currentMenu == MenuType.Main) {
 				m_interpreter.execute("menu toggle");
@@ -196,15 +206,18 @@ namespace SproketEngine {
 			}
 		}
 
+		// select the current active menu item within the active sub-menu
 		public void select() {
 			m_menu[(int) m_currentMenu].select();
 		}
 
+		// set the current active sub-menu
 		public void setSubMenu(MenuType subMenu) {
 			m_menu[(int) m_currentMenu].index = 0;
 			m_currentMenu = subMenu;
 		}
 
+		// reset the menu (and all sub-menus)
 		public void reset() {
 			for(int i=0;i<m_menu.Count();i++) {
 				m_menu[i].reset();
@@ -212,10 +225,12 @@ namespace SproketEngine {
 			m_currentMenu = MenuType.Main;
 		}
 
+		// update the current active sub-menu
 		public void update(GameTime gameTime) {
 			m_menu[(int) m_currentMenu].update(gameTime);
 		}
 
+		// draw the current active sub-menu
 		public void draw(SpriteBatch spriteBatch) {
 			m_menu[(int) m_currentMenu].draw(spriteBatch);
 		}
