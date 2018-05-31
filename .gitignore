@@ -1,0 +1,50 @@
+
+# /KiloWatt/
+/KiloWatt/*.suo
+
+# /KiloWatt/Base/
+/KiloWatt/Base/bin
+/KiloWatt/Base/obj
+
+# /KiloWatt/Base/Content/
+/KiloWatt/Base/Content/bin
+/KiloWatt/Base/Content/obj
+
+# /KiloWatt/Pipeline/
+/KiloWatt/Pipeline/bin
+/KiloWatt/Pipeline/obj
+
+# /Original Content/Textures/core/
+/Original Content/Textures/core/*.db
+
+# /Sproket Engine/
+/Sproket Engine/obj
+/Sproket Engine/*.suo
+/Sproket Engine/*.user
+/Sproket Engine/bin
+/Sproket Engine/*.cachefile
+/Sproket Engine/Thumbs.db
+
+# /Sproket Engine/Content/
+/Sproket Engine/Content/bin
+/Sproket Engine/Content/obj
+
+# /XNAQ3Lib/MD5ContentPipelineExtension/
+/XNAQ3Lib/MD5ContentPipelineExtension/bin
+/XNAQ3Lib/MD5ContentPipelineExtension/obj
+/XNAQ3Lib/MD5ContentPipelineExtension/*.suo
+
+# /XNAQ3Lib/Q3BSPContentPipelineExtension/
+/XNAQ3Lib/Q3BSPContentPipelineExtension/bin
+/XNAQ3Lib/Q3BSPContentPipelineExtension/obj
+/XNAQ3Lib/Q3BSPContentPipelineExtension/*.suo
+
+# /XNAQ3Lib/XNAQ3Lib.MD5/
+/XNAQ3Lib/XNAQ3Lib.MD5/bin
+/XNAQ3Lib/XNAQ3Lib.MD5/obj
+/XNAQ3Lib/XNAQ3Lib.MD5/*.suo
+
+# /XNAQ3Lib/XNAQ3Lib.Q3BSP/
+/XNAQ3Lib/XNAQ3Lib.Q3BSP/bin
+/XNAQ3Lib/XNAQ3Lib.Q3BSP/obj
+/XNAQ3Lib/XNAQ3Lib.Q3BSP/*.suo
